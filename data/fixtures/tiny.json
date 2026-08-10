@@ -1,0 +1,41 @@
+[
+  {
+    "id": "Q869",
+    "type": "country",
+    "name": { "en": "Thailand", "vi": "Thái Lan" },
+    "description": { "en": "country in Southeast Asia", "vi": "quốc gia tại Đông Nam Á" },
+    "aliases": { "en": ["Kingdom of Thailand"], "vi": ["Vương quốc Thái Lan"] },
+    "continent": "Asia",
+    "region": "Southeast Asia",
+    "countryCode": "TH",
+    "population": 65889213,
+    "facts": { "capital": "Bangkok", "currency": "Thai baht", "languages": ["Thai"] }
+  },
+  {
+    "id": "Q881",
+    "type": "country",
+    "name": { "en": "Vietnam", "vi": "Việt Nam" },
+    "description": { "en": "country in Southeast Asia", "vi": "quốc gia tại Đông Nam Á" },
+    "continent": "Asia",
+    "region": "Southeast Asia",
+    "countryCode": "VN",
+    "facts": { "capital": "Hanoi", "currency": "Vietnamese đồng", "languages": ["Vietnamese"] }
+  },
+  {
+    "id": "Q1490",
+    "type": "city",
+    "name": { "en": "Tokyo", "vi": "Tokyo" },
+    "description": { "en": "capital and largest city of Japan", "vi": "thủ đô và thành phố lớn nhất Nhật Bản" },
+    "continent": "Asia",
+    "region": "East Asia",
+    "facts": { "languages": ["Japanese"] }
+  },
+  {
+    "id": "Q243",
+    "type": "landmark",
+    "name": { "en": "Eiffel Tower", "vi": "Tháp Eiffel" },
+    "description": { "en": "wrought-iron lattice tower in Paris, France", "vi": "tháp lưới bằng sắt rèn ở Paris, Pháp" },
+    "continent": "Europe",
+    "region": "Western Europe"
+  }
+]
