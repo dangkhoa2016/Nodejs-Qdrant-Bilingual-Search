@@ -498,5 +498,485 @@
     ],
     "category": "city-capital",
     "challenge": "code-switch"
+  },
+  {
+    "id": "en-hard-city-11",
+    "language": "en",
+    "query": "Which city is the capital of the United Kingdom?",
+    "expected_ids": [
+      "geonames:city:2643743"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-12",
+    "language": "en",
+    "query": "UK national capital — city result only",
+    "expected_ids": [
+      "geonames:city:2643743"
+    ],
+    "category": "city-capital",
+    "challenge": "noise"
+  },
+  {
+    "id": "en-hard-city-13",
+    "language": "en",
+    "query": "Vietnamese metropolis historically called Saigon",
+    "expected_ids": [
+      "geonames:city:1566083"
+    ],
+    "category": "city-alias",
+    "challenge": "alias"
+  },
+  {
+    "id": "en-hard-city-14",
+    "language": "en",
+    "query": "Which Vietnamese city is commonly known by the old name Saigon?",
+    "expected_ids": [
+      "geonames:city:1566083"
+    ],
+    "category": "city-alias",
+    "challenge": "alias"
+  },
+  {
+    "id": "en-hard-city-15",
+    "language": "en",
+    "query": "What city is Germany's national capital?",
+    "expected_ids": [
+      "geonames:city:2950159"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-16",
+    "language": "en",
+    "query": "City, not country: Germany's capital",
+    "expected_ids": [
+      "geonames:city:2950159"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-city-17",
+    "language": "en",
+    "query": "capitol citey of Jappan",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "typo-noise"
+  },
+  {
+    "id": "en-hard-city-18",
+    "language": "en",
+    "query": "Vietnam → capital city?",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "en-hard-city-19",
+    "language": "en",
+    "query": "Thailand / capital / city",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "en-hard-city-20",
+    "language": "en",
+    "query": "France → national capital city",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "vi-hard-city-01",
+    "language": "vi",
+    "query": "Thành phố nào là thủ đô quốc gia của Nhật Bản?",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-02",
+    "language": "vi",
+    "query": "Hãy trả về thành phố thủ đô, không phải quốc gia Nhật Bản",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-city-03",
+    "language": "vi",
+    "query": "Thành phố nào là trung tâm chính quyền và thủ đô của Việt Nam?",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-04",
+    "language": "vi",
+    "query": "chỉ tìm thành phố: thủ đô quốc gia của Việt Nam",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "noise"
+  },
+  {
+    "id": "vi-hard-city-05",
+    "language": "vi",
+    "query": "Thủ đô của Thái Lan là thành phố nào?",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-06",
+    "language": "vi",
+    "query": "Tôi muốn thành phố làm thủ đô Thái Lan, không phải nước Thái Lan",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-city-07",
+    "language": "vi",
+    "query": "Thành phố nào giữ vai trò thủ đô của Pháp?",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-08",
+    "language": "vi",
+    "query": "Trả thành phố thủ đô của Pháp thay vì tên quốc gia",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-city-09",
+    "language": "vi",
+    "query": "Thành phố nào là thủ đô Trung Quốc?",
+    "expected_ids": [
+      "geonames:city:1816670"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-10",
+    "language": "vi",
+    "query": "capital city của Trung Quốc là gì?",
+    "expected_ids": [
+      "geonames:city:1816670"
+    ],
+    "category": "city-capital",
+    "challenge": "code-switch"
+  },
+  {
+    "id": "vi-hard-city-11",
+    "language": "vi",
+    "query": "Thành phố nào là thủ đô Vương quốc Anh?",
+    "expected_ids": [
+      "geonames:city:2643743"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-12",
+    "language": "vi",
+    "query": "UK, thủ đô quốc gia, chỉ cần city",
+    "expected_ids": [
+      "geonames:city:2643743"
+    ],
+    "category": "city-capital",
+    "challenge": "noise"
+  },
+  {
+    "id": "vi-hard-city-13",
+    "language": "vi",
+    "query": "Đô thị Việt Nam trước đây thường được gọi là Sài Gòn",
+    "expected_ids": [
+      "geonames:city:1566083"
+    ],
+    "category": "city-alias",
+    "challenge": "alias"
+  },
+  {
+    "id": "vi-hard-city-14",
+    "language": "vi",
+    "query": "Sài Gòn là tên cũ thường dùng của thành phố Việt Nam nào?",
+    "expected_ids": [
+      "geonames:city:1566083"
+    ],
+    "category": "city-alias",
+    "challenge": "alias"
+  },
+  {
+    "id": "vi-hard-city-15",
+    "language": "vi",
+    "query": "Thành phố nào là thủ đô của Đức?",
+    "expected_ids": [
+      "geonames:city:2950159"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-city-16",
+    "language": "vi",
+    "query": "Tìm thành phố chứ không phải quốc gia: thủ đô của Đức",
+    "expected_ids": [
+      "geonames:city:2950159"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-city-17",
+    "language": "vi",
+    "query": "thanh pho thu do cua Nhat Ban",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "no-diacritics"
+  },
+  {
+    "id": "vi-hard-city-18",
+    "language": "vi",
+    "query": "Việt Nam → thành phố thủ đô?",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "vi-hard-city-19",
+    "language": "vi",
+    "query": "Thái Lan / thủ đô / thành phố",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "vi-hard-city-20",
+    "language": "vi",
+    "query": "Pháp → thành phố thủ đô quốc gia",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "compressed"
+  },
+  {
+    "id": "en-hard-noanswer-01",
+    "language": "en",
+    "query": "Who wrote Pride and Prejudice?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-02",
+    "language": "en",
+    "query": "What is the chemical symbol for gold?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-03",
+    "language": "en",
+    "query": "Explain how a JavaScript Promise works",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-04",
+    "language": "en",
+    "query": "Give me a recipe for sourdough bread",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-05",
+    "language": "en",
+    "query": "What is two plus two?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-06",
+    "language": "en",
+    "query": "How do I center a div with CSS?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-07",
+    "language": "en",
+    "query": "Who painted the Mona Lisa?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-08",
+    "language": "en",
+    "query": "What causes a solar eclipse?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-09",
+    "language": "en",
+    "query": "Write a haiku about rain",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-noanswer-10",
+    "language": "en",
+    "query": "How does photosynthesis convert light into energy?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-01",
+    "language": "vi",
+    "query": "Ai là tác giả tiểu thuyết Kiêu hãnh và định kiến?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-02",
+    "language": "vi",
+    "query": "Ký hiệu hóa học của vàng là gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-03",
+    "language": "vi",
+    "query": "Giải thích Promise trong JavaScript hoạt động thế nào",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-04",
+    "language": "vi",
+    "query": "Cho tôi công thức làm bánh mì chua",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-05",
+    "language": "vi",
+    "query": "Hai cộng hai bằng bao nhiêu?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-06",
+    "language": "vi",
+    "query": "Làm sao căn giữa một div bằng CSS?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-07",
+    "language": "vi",
+    "query": "Ai đã vẽ bức Mona Lisa?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-08",
+    "language": "vi",
+    "query": "Nhật thực xảy ra do nguyên nhân gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-09",
+    "language": "vi",
+    "query": "Viết một bài thơ haiku về mưa",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-noanswer-10",
+    "language": "vi",
+    "query": "Quang hợp biến ánh sáng thành năng lượng như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "out-of-domain",
+    "answerable": false
   }
 ]
