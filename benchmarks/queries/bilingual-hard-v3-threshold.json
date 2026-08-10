@@ -1,0 +1,502 @@
+[
+  {
+    "id": "en-hard-country-01",
+    "language": "en",
+    "query": "A nation in mainland Southeast Asia where people pay with the baht",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "en-hard-country-02",
+    "language": "en",
+    "query": "Which country is associated with Bangkok as its national capital and the baht as its money?",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-country-03",
+    "language": "en",
+    "query": "Southeast Asian nation governed from Hanoi and using the dong",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "en-hard-country-04",
+    "language": "en",
+    "query": "I am not asking for a city: identify the country whose capital is Hanoi and currency is the Vietnamese dong",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "noise"
+  },
+  {
+    "id": "en-hard-country-05",
+    "language": "en",
+    "query": "Find the country linked to Tokyo, the yen, and East Asia",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-country-06",
+    "language": "en",
+    "query": "country only please — Mount Fuji region, Tokyo capital, yen currency",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "noise"
+  },
+  {
+    "id": "en-hard-country-07",
+    "language": "en",
+    "query": "European republic centered on Paris and using the euro",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "en-hard-country-08",
+    "language": "en",
+    "query": "Return the country, not Paris: European state with Paris as capital and euro currency",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-country-09",
+    "language": "en",
+    "query": "Which Asian country has Beijing as its capital and uses renminbi?",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-country-10",
+    "language": "en",
+    "query": "I need the nation rather than Beijing: capital Beijing, currency yuan renminbi",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-country-11",
+    "language": "en",
+    "query": "East Asian nation whose seat of government is Seoul and currency is won",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "en-hard-country-12",
+    "language": "en",
+    "query": "country result only; Seoul + won + East Asia",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "noise"
+  },
+  {
+    "id": "en-hard-country-13",
+    "language": "en",
+    "query": "European sovereign state with London as capital and pound sterling as currency",
+    "expected_ids": [
+      "geonames:country:2635167"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "en-hard-country-14",
+    "language": "en",
+    "query": "Not London the city; identify the country whose capital is London and whose currency is the pound",
+    "expected_ids": [
+      "geonames:country:2635167"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-country-15",
+    "language": "en",
+    "query": "Which quốc gia in Southeast Asia uses baht and has Bangkok as capital?",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "code-switch"
+  },
+  {
+    "id": "en-hard-country-16",
+    "language": "en",
+    "query": "Find the country: thủ đô Hà Nội, currency dong",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "code-switch"
+  },
+  {
+    "id": "en-hard-country-17",
+    "language": "en",
+    "query": "East Asain countri with Tokyo capital and yen currency",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "typo-noise"
+  },
+  {
+    "id": "en-hard-country-18",
+    "language": "en",
+    "query": "Europen country, Paris capitol, euro money",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "typo-noise"
+  },
+  {
+    "id": "en-hard-country-19",
+    "language": "en",
+    "query": "Beijing / renminbi / East Asia — country?",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "compressed"
+  },
+  {
+    "id": "en-hard-country-20",
+    "language": "en",
+    "query": "Seoul, won, East Asia; name the country",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "compressed"
+  },
+  {
+    "id": "vi-hard-country-01",
+    "language": "vi",
+    "query": "Nước ở Đông Nam Á dùng đồng baht và có thủ đô Bangkok",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "vi-hard-country-02",
+    "language": "vi",
+    "query": "Quốc gia nào gắn với Bangkok là thủ đô và đồng tiền baht?",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-country-03",
+    "language": "vi",
+    "query": "Nước Đông Nam Á có trung tâm chính trị ở Hà Nội và dùng đồng Việt Nam",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "vi-hard-country-04",
+    "language": "vi",
+    "query": "Tôi cần tên quốc gia chứ không phải thành phố Hà Nội: thủ đô Hà Nội, tiền tệ đồng Việt Nam",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-country-05",
+    "language": "vi",
+    "query": "Quốc gia Đông Á nào có Tokyo và đồng yên?",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-country-06",
+    "language": "vi",
+    "query": "chỉ trả quốc gia: Tokyo + yên + Đông Á",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "noise"
+  },
+  {
+    "id": "vi-hard-country-07",
+    "language": "vi",
+    "query": "Nước châu Âu có thủ đô Paris và sử dụng euro",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "vi-hard-country-08",
+    "language": "vi",
+    "query": "Không tìm Paris; hãy tìm quốc gia châu Âu có Paris làm thủ đô và dùng euro",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-country-09",
+    "language": "vi",
+    "query": "Quốc gia châu Á nào có Bắc Kinh là thủ đô và dùng nhân dân tệ?",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "vi-hard-country-10",
+    "language": "vi",
+    "query": "Tìm tên nước, không phải Bắc Kinh: thủ đô Bắc Kinh, tiền tệ nhân dân tệ",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-country-11",
+    "language": "vi",
+    "query": "Nước Đông Á có thủ đô Seoul và sử dụng đồng won",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "vi-hard-country-12",
+    "language": "vi",
+    "query": "quốc gia thôi nhé; Seoul + won + Đông Á",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "noise"
+  },
+  {
+    "id": "vi-hard-country-13",
+    "language": "vi",
+    "query": "Quốc gia châu Âu có Luân Đôn là thủ đô và dùng đồng bảng",
+    "expected_ids": [
+      "geonames:country:2635167"
+    ],
+    "category": "country-factual",
+    "challenge": "paraphrase"
+  },
+  {
+    "id": "vi-hard-country-14",
+    "language": "vi",
+    "query": "Không phải thành phố Luân Đôn; nước nào có thủ đô Luân Đôn và dùng bảng Anh?",
+    "expected_ids": [
+      "geonames:country:2635167"
+    ],
+    "category": "country-factual",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "vi-hard-country-15",
+    "language": "vi",
+    "query": "country nào ở Đông Nam Á dùng baht, capital Bangkok?",
+    "expected_ids": [
+      "geonames:country:1605651"
+    ],
+    "category": "country-factual",
+    "challenge": "code-switch"
+  },
+  {
+    "id": "vi-hard-country-16",
+    "language": "vi",
+    "query": "Tìm quốc gia: capital Hanoi, currency dong",
+    "expected_ids": [
+      "geonames:country:1562822"
+    ],
+    "category": "country-factual",
+    "challenge": "code-switch"
+  },
+  {
+    "id": "vi-hard-country-17",
+    "language": "vi",
+    "query": "quoc gia Dong A co Tokyo lam thu do va dung dong yen",
+    "expected_ids": [
+      "geonames:country:1861060"
+    ],
+    "category": "country-factual",
+    "challenge": "no-diacritics"
+  },
+  {
+    "id": "vi-hard-country-18",
+    "language": "vi",
+    "query": "nuoc chau Au co thu do Paris va dung dong euro",
+    "expected_ids": [
+      "geonames:country:3017382"
+    ],
+    "category": "country-factual",
+    "challenge": "no-diacritics"
+  },
+  {
+    "id": "vi-hard-country-19",
+    "language": "vi",
+    "query": "Bắc Kinh / nhân dân tệ / châu Á — nước nào?",
+    "expected_ids": [
+      "geonames:country:1814991"
+    ],
+    "category": "country-factual",
+    "challenge": "compressed"
+  },
+  {
+    "id": "vi-hard-country-20",
+    "language": "vi",
+    "query": "Seoul, won, Đông Á; tên quốc gia?",
+    "expected_ids": [
+      "geonames:country:1835841"
+    ],
+    "category": "country-factual",
+    "challenge": "compressed"
+  },
+  {
+    "id": "en-hard-city-01",
+    "language": "en",
+    "query": "What city serves as the national capital of Japan?",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-02",
+    "language": "en",
+    "query": "Give me the capital city, not the country Japan",
+    "expected_ids": [
+      "geonames:city:1850147"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-city-03",
+    "language": "en",
+    "query": "Which city is the seat of Vietnam's national government?",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-04",
+    "language": "en",
+    "query": "city only please: national capital of Vietnam",
+    "expected_ids": [
+      "geonames:city:1581130"
+    ],
+    "category": "city-capital",
+    "challenge": "noise"
+  },
+  {
+    "id": "en-hard-city-05",
+    "language": "en",
+    "query": "Name Thailand's capital city",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-06",
+    "language": "en",
+    "query": "I want the city that is Thailand's capital, not Thailand itself",
+    "expected_ids": [
+      "geonames:city:1609350"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-city-07",
+    "language": "en",
+    "query": "Which city is France governed from as its capital?",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-08",
+    "language": "en",
+    "query": "Return the capital city of France rather than the country",
+    "expected_ids": [
+      "geonames:city:2988507"
+    ],
+    "category": "city-capital",
+    "challenge": "hard-negative"
+  },
+  {
+    "id": "en-hard-city-09",
+    "language": "en",
+    "query": "What city is the capital of China?",
+    "expected_ids": [
+      "geonames:city:1816670"
+    ],
+    "category": "city-capital",
+    "challenge": "implicit-relation"
+  },
+  {
+    "id": "en-hard-city-10",
+    "language": "en",
+    "query": "capital city của China là thành phố nào?",
+    "expected_ids": [
+      "geonames:city:1816670"
+    ],
+    "category": "city-capital",
+    "challenge": "code-switch"
+  }
+]
