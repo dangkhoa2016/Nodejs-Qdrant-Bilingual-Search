@@ -1,0 +1,14 @@
+node_modules/
+.env
+logs/
+reports/
+coverage/
+*.zip
+__pycache__/
+.pytest_cache/
+.venv/
+data/generated/
+temp/
+data/cache/
+.qdrant-initialized
+embedding-service/Qwen/
