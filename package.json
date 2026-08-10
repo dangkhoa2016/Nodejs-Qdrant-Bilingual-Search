@@ -1,0 +1,63 @@
+{
+  "name": "nodejs-qdrant-bilingual-search",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Bilingual English/Vietnamese open-knowledge semantic search API with Hono, Qdrant, reproducible public datasets and auditable translation.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node --watch src/server.js",
+    "start": "NODE_ENV=development node src/server.js",
+    "test": "node --test --test-reporter=spec tests/unit/*.test.js tests/http/*.test.js",
+    "test:http": "node --test --test-reporter=spec tests/http/*.test.js",
+    "test:all": "npm test && npm run test:integration",
+    "check": "node --check src/server.js && npm run test:unit",
+    "seed": "QDRANT_COLLECTION=knowledge_entities_fixture_v1 EMBEDDING_MODEL=intfloat/multilingual-e5-small EMBEDDING_DIMENSION=384 EMBEDDING_TRANSPORT=json EMBEDDING_TEXT_VERSION=v1 EMBEDDING_VERSION=v1 EMBEDDING_REQUEST_TIMEOUT_MS=15000 DATASET_VERSION=fixture-v1 NODE_ENV=development node scripts/seed/seed.mjs",
+    "seed:existing": "NODE_ENV=development node scripts/seed/existing.mjs",
+    "seed:shadow:v21": "QDRANT_COLLECTION=knowledge_entities_qwen3_4b_text_v21 EMBEDDING_MODEL=Qwen/Qwen3-Embedding-4B EMBEDDING_DIMENSION=2560 EMBEDDING_TRANSPORT=binary-f32 EMBEDDING_TEXT_VERSION=v2.1 EMBEDDING_VERSION=qwen3-4b-v1 EMBEDDING_REQUEST_TIMEOUT_MS=120000 NODE_ENV=development node scripts/seed/existing.mjs",
+    "dataset:translate": "NODE_ENV=development node scripts/dataset/translate-missing.mjs",
+    "benchmark": "node scripts/benchmark/evaluate.mjs",
+    "benchmark:embedding-transport": "NODE_ENV=development node scripts/benchmark/embedding-transport.mjs",
+    "test:unit": "node --test --test-reporter=spec tests/unit/*.test.js",
+    "test:integration": "node --test --test-reporter=spec tests/integration/*.test.js",
+    "dataset:build": "NODE_ENV=development node scripts/dataset/build-public.mjs",
+    "seed:public": "NODE_ENV=development node scripts/seed/public.mjs",
+    "verify:semantic-index": "NODE_ENV=development node scripts/verify/semantic-index.mjs",
+    "seed:status": "bash scripts/seed/status.sh",
+    "seed:clean:qwen3": "bash scripts/seed/clean-qwen3-seed.sh",
+    "benchmark:hard": "node scripts/benchmark/evaluate.mjs benchmarks/queries/bilingual-hard-v2.json",
+    "benchmark:calibrate-threshold": "node scripts/benchmark/calibrate-threshold.mjs",
+    "benchmark:text-ab": "node scripts/benchmark/focused-text-ab.mjs",
+    "benchmark:text-ab-v21": "node scripts/benchmark/focused-text-v21-ab.mjs",
+    "benchmark:text-ab-v21-stress": "node scripts/benchmark/stress-text-v21-ab.mjs",
+    "benchmark:full20k-v21-ab": "NODE_ENV=development node scripts/benchmark/full20k-v21-collection-ab.mjs",
+    "benchmark:calibrate-v21-full20k-threshold": "node scripts/benchmark/calibrate-v21-full20k-threshold.mjs",
+    "seed:canonical": "QDRANT_COLLECTION=knowledge_entities_qwen3_4b_text_v21 EMBEDDING_MODEL=Qwen/Qwen3-Embedding-4B EMBEDDING_DIMENSION=2560 EMBEDDING_TRANSPORT=binary-f32 EMBEDDING_TEXT_VERSION=v2.1 EMBEDDING_VERSION=qwen3-4b-v1 EMBEDDING_REQUEST_TIMEOUT_MS=120000 NODE_ENV=development node scripts/seed/existing.mjs",
+    "verify:canonical-config": "NODE_ENV=development node scripts/verify/canonical-config.mjs",
+    "acceptance:post-promotion-v21-api:run": "NODE_ENV=development node scripts/benchmark/post-promotion-v21-api-acceptance.mjs",
+    "acceptance:post-promotion-v21-api": "bash scripts/acceptance/post-promotion-v21-api.sh",
+    "benchmark:expanded-v21-noanswer-api": "NODE_ENV=development node scripts/benchmark/expanded-noanswer-v21-api.mjs",
+    "benchmark:calibrate-expanded-v21-threshold": "node scripts/benchmark/calibrate-expanded-v21-threshold.mjs",
+    "benchmark:expanded-v21-threshold": "bash scripts/benchmark/run-expanded-v21-threshold.sh",
+    "benchmark:v21-consistency-verification:run": "NODE_ENV=development node scripts/benchmark/v21-consistency-verification.mjs",
+    "benchmark:v21-consistency-verification": "bash scripts/benchmark/run-v21-consistency-verification.sh",
+    "acceptance:v21-production-consistency:run": "NODE_ENV=development node scripts/benchmark/v21-production-consistency-acceptance.mjs",
+    "acceptance:v21-production-consistency": "bash scripts/acceptance/v21-production-consistency.sh",
+    "benchmark:v21-domain-entity-intent:run": "NODE_ENV=development node scripts/benchmark/v21-domain-entity-intent.mjs",
+    "benchmark:v21-domain-entity-intent": "bash scripts/benchmark/run-v21-domain-entity-intent.sh",
+    "acceptance:v21-production-domain-entity-intent:run": "NODE_ENV=development node scripts/benchmark/v21-production-domain-entity-intent-acceptance.mjs",
+    "acceptance:v21-production-domain-entity-intent": "bash scripts/acceptance/v21-production-domain-entity-intent.sh",
+    "demo": "NODE_ENV=production node scripts/demo/demo.mjs",
+    "smoke:production": "NODE_ENV=production node scripts/demo/smoke.mjs"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.1",
+    "@qdrant/js-client-rest": "1.19.0",
+    "hono": "4.12.34"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
