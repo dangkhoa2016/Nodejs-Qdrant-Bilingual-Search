@@ -1428,5 +1428,455 @@
     "category": "no-answer",
     "challenge": "plausible-absent-entity",
     "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-science-01",
+    "language": "en",
+    "query": "How does CRISPR-Cas9 edit DNA?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-science-02",
+    "language": "en",
+    "query": "What evidence supports the existence of the Higgs boson?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-science-03",
+    "language": "en",
+    "query": "How do mitochondria produce ATP?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-science-04",
+    "language": "en",
+    "query": "What causes tectonic plates to move?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-science-05",
+    "language": "en",
+    "query": "What is quantum entanglement?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-science-01",
+    "language": "vi",
+    "query": "CRISPR-Cas9 chỉnh sửa DNA như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-science-02",
+    "language": "vi",
+    "query": "Bằng chứng nào xác nhận sự tồn tại của boson Higgs?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-science-03",
+    "language": "vi",
+    "query": "Ty thể tạo ra ATP như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-science-04",
+    "language": "vi",
+    "query": "Điều gì khiến các mảng kiến tạo di chuyển?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-science-05",
+    "language": "vi",
+    "query": "Rối lượng tử là gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "science",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-software-technology-01",
+    "language": "en",
+    "query": "How does the JavaScript event loop schedule Promise callbacks?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-software-technology-02",
+    "language": "en",
+    "query": "When should a database use a B-tree index?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-software-technology-03",
+    "language": "en",
+    "query": "What is the difference between a Docker image and a container?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-software-technology-04",
+    "language": "en",
+    "query": "How does a TLS handshake establish encryption keys?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-software-technology-05",
+    "language": "en",
+    "query": "What does git rebase do to commit history?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-software-technology-01",
+    "language": "vi",
+    "query": "Event loop của JavaScript lập lịch callback Promise như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-software-technology-02",
+    "language": "vi",
+    "query": "Khi nào cơ sở dữ liệu nên dùng chỉ mục B-tree?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-software-technology-03",
+    "language": "vi",
+    "query": "Docker image khác container như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-software-technology-04",
+    "language": "vi",
+    "query": "TLS handshake thiết lập khóa mã hóa như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-software-technology-05",
+    "language": "vi",
+    "query": "git rebase thay đổi lịch sử commit như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "software-technology",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-sports-01",
+    "language": "en",
+    "query": "How does the offside rule work in football?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-sports-02",
+    "language": "en",
+    "query": "How long is the NBA shot clock?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-sports-03",
+    "language": "en",
+    "query": "How is a tennis tiebreak scored?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-sports-04",
+    "language": "en",
+    "query": "When can a Formula 1 driver use DRS?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-sports-05",
+    "language": "en",
+    "query": "How is earned run average calculated in baseball?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-sports-01",
+    "language": "vi",
+    "query": "Luật việt vị trong bóng đá hoạt động như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-sports-02",
+    "language": "vi",
+    "query": "Đồng hồ ném rổ của NBA kéo dài bao nhiêu giây?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-sports-03",
+    "language": "vi",
+    "query": "Cách tính điểm tie-break trong quần vợt như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-sports-04",
+    "language": "vi",
+    "query": "Khi nào tay đua Formula 1 được dùng DRS?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-sports-05",
+    "language": "vi",
+    "query": "Chỉ số ERA trong bóng chày được tính như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "sports",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-commercial-product-01",
+    "language": "en",
+    "query": "How can I extend the battery life of an iPhone?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-commercial-product-02",
+    "language": "en",
+    "query": "Which RTX graphics card is suitable for 4K gaming?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-commercial-product-03",
+    "language": "en",
+    "query": "What benefits are included with a PlayStation Plus subscription?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-commercial-product-04",
+    "language": "en",
+    "query": "How does a Kindle e-reader differ from a tablet?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-commercial-product-05",
+    "language": "en",
+    "query": "How does a Toyota hybrid powertrain switch between engine and motor?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-commercial-product-01",
+    "language": "vi",
+    "query": "Làm thế nào để kéo dài thời lượng pin của iPhone?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-commercial-product-02",
+    "language": "vi",
+    "query": "Card đồ họa RTX nào phù hợp để chơi game 4K?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-commercial-product-03",
+    "language": "vi",
+    "query": "Gói PlayStation Plus bao gồm những quyền lợi gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-commercial-product-04",
+    "language": "vi",
+    "query": "Máy đọc sách Kindle khác máy tính bảng như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-commercial-product-05",
+    "language": "vi",
+    "query": "Hệ truyền động hybrid của Toyota chuyển giữa động cơ và mô-tơ như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "commercial-product",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-finance-legal-01",
+    "language": "en",
+    "query": "How is compound interest calculated on a savings account?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-finance-legal-02",
+    "language": "en",
+    "query": "What does bond duration measure?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-finance-legal-03",
+    "language": "en",
+    "query": "How does fair use work under copyright law?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-finance-legal-04",
+    "language": "en",
+    "query": "What is the difference between an LLC and a corporation?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-finance-legal-05",
+    "language": "en",
+    "query": "How is value-added tax collected from businesses?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-finance-legal-01",
+    "language": "vi",
+    "query": "Lãi kép của tài khoản tiết kiệm được tính như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-finance-legal-02",
+    "language": "vi",
+    "query": "Duration của trái phiếu đo lường điều gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-finance-legal-03",
+    "language": "vi",
+    "query": "Quy định fair use trong luật bản quyền hoạt động như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-finance-legal-04",
+    "language": "vi",
+    "query": "Công ty LLC khác corporation như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-finance-legal-05",
+    "language": "vi",
+    "query": "Thuế giá trị gia tăng được thu từ doanh nghiệp như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "finance-legal",
+    "answerable": false
   }
 ]
