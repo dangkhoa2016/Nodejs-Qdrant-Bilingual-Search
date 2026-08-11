@@ -978,5 +978,455 @@
     "category": "no-answer",
     "challenge": "out-of-domain",
     "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-lexical-collision-01",
+    "language": "en",
+    "query": "How do I tune the Java garbage collector for a Node.js backend?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-lexical-collision-02",
+    "language": "en",
+    "query": "Which Air Jordan model has the best cushioning for basketball?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-lexical-collision-03",
+    "language": "en",
+    "query": "What is the plot of the movie Casablanca?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-lexical-collision-04",
+    "language": "en",
+    "query": "How did Georgia O'Keeffe develop her painting style?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-lexical-collision-05",
+    "language": "en",
+    "query": "Which albums made Paris Hilton famous as a singer?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-lexical-collision-01",
+    "language": "vi",
+    "query": "Java garbage collector hoạt động như thế nào trong ứng dụng backend?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-lexical-collision-02",
+    "language": "vi",
+    "query": "Mẫu giày Air Jordan nào có độ đệm tốt cho bóng rổ?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-lexical-collision-03",
+    "language": "vi",
+    "query": "Nội dung phim Casablanca nói về điều gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-lexical-collision-04",
+    "language": "vi",
+    "query": "Georgia O'Keeffe nổi tiếng với phong cách hội họa nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-lexical-collision-05",
+    "language": "vi",
+    "query": "Paris Hilton đã phát hành những album âm nhạc nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "lexical-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-entity-name-collision-01",
+    "language": "en",
+    "query": "How does the Phoenix framework handle web requests in Elixir?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-entity-name-collision-02",
+    "language": "en",
+    "query": "What kinds of robots does Boston Dynamics build?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-entity-name-collision-03",
+    "language": "en",
+    "query": "What is the editorial policy of The Washington Post?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-entity-name-collision-04",
+    "language": "en",
+    "query": "How does Amazon Prime Video recommend movies?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-entity-name-collision-05",
+    "language": "en",
+    "query": "What trophies has Chelsea Football Club won?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-entity-name-collision-01",
+    "language": "vi",
+    "query": "Phoenix framework xử lý web request trong Elixir như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-entity-name-collision-02",
+    "language": "vi",
+    "query": "Boston Dynamics đang phát triển những loại robot nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-entity-name-collision-03",
+    "language": "vi",
+    "query": "Chính sách biên tập của The Washington Post là gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-entity-name-collision-04",
+    "language": "vi",
+    "query": "Amazon Prime Video gợi ý phim cho người xem như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-entity-name-collision-05",
+    "language": "vi",
+    "query": "Chelsea Football Club đã giành những danh hiệu nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "entity-name-collision",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-wrong-relation-type-01",
+    "language": "en",
+    "query": "What does London dispersion force mean in chemistry?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-wrong-relation-type-02",
+    "language": "en",
+    "query": "What is the Tokyo Stock Exchange's main market index?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-wrong-relation-type-03",
+    "language": "en",
+    "query": "How does the Paris Agreement address greenhouse gas emissions?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-wrong-relation-type-04",
+    "language": "en",
+    "query": "What does the Rome Statute establish in international law?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-wrong-relation-type-05",
+    "language": "en",
+    "query": "What is the Berlin Heart device used for in medicine?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-wrong-relation-type-01",
+    "language": "vi",
+    "query": "Lực phân tán London trong hóa học có nghĩa là gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-wrong-relation-type-02",
+    "language": "vi",
+    "query": "Chỉ số thị trường chính của Sở giao dịch chứng khoán Tokyo là gì?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-wrong-relation-type-03",
+    "language": "vi",
+    "query": "Hiệp định Paris xử lý vấn đề phát thải khí nhà kính như thế nào?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-wrong-relation-type-04",
+    "language": "vi",
+    "query": "Quy chế Rome thiết lập điều gì trong luật quốc tế?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-wrong-relation-type-05",
+    "language": "vi",
+    "query": "Thiết bị Berlin Heart được dùng để làm gì trong y học?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "wrong-relation-type",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-contradictory-geography-01",
+    "language": "en",
+    "query": "Which European country has Tokyo as its capital and uses the yen?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-contradictory-geography-02",
+    "language": "en",
+    "query": "Which South American country has Bangkok as its capital and uses the baht?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-contradictory-geography-03",
+    "language": "en",
+    "query": "Which African country has Paris as its capital and uses the euro?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-contradictory-geography-04",
+    "language": "en",
+    "query": "Which Asian country has London as its capital and uses pound sterling?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-contradictory-geography-05",
+    "language": "en",
+    "query": "Which North American country has Hanoi as its capital and uses the dong?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-contradictory-geography-01",
+    "language": "vi",
+    "query": "Quốc gia châu Âu nào có thủ đô Tokyo và sử dụng đồng yên?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-contradictory-geography-02",
+    "language": "vi",
+    "query": "Quốc gia Nam Mỹ nào có thủ đô Bangkok và sử dụng đồng baht?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-contradictory-geography-03",
+    "language": "vi",
+    "query": "Quốc gia châu Phi nào có thủ đô Paris và sử dụng đồng euro?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-contradictory-geography-04",
+    "language": "vi",
+    "query": "Quốc gia châu Á nào có thủ đô London và sử dụng bảng Anh?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-contradictory-geography-05",
+    "language": "vi",
+    "query": "Quốc gia Bắc Mỹ nào có thủ đô Hà Nội và sử dụng đồng Việt Nam?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "contradictory-geography",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-plausible-absent-entity-01",
+    "language": "en",
+    "query": "Which country has Wakanda City as its capital?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-plausible-absent-entity-02",
+    "language": "en",
+    "query": "Which country has Gotham City as its national capital?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-plausible-absent-entity-03",
+    "language": "en",
+    "query": "Which nation has Minas Tirith as its capital city?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-plausible-absent-entity-04",
+    "language": "en",
+    "query": "What country has Arrakeen as its capital?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "en-hard-v3-noanswer-plausible-absent-entity-05",
+    "language": "en",
+    "query": "Which country has Emerald City as its capital and uses emerald coins?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-plausible-absent-entity-01",
+    "language": "vi",
+    "query": "Quốc gia nào có Wakanda City làm thủ đô?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-plausible-absent-entity-02",
+    "language": "vi",
+    "query": "Nước nào có Gotham City làm thủ đô quốc gia?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-plausible-absent-entity-03",
+    "language": "vi",
+    "query": "Quốc gia nào có Minas Tirith làm thủ đô?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-plausible-absent-entity-04",
+    "language": "vi",
+    "query": "Nước nào có Arrakeen làm thủ đô?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
+  },
+  {
+    "id": "vi-hard-v3-noanswer-plausible-absent-entity-05",
+    "language": "vi",
+    "query": "Quốc gia nào có Emerald City làm thủ đô và dùng đồng emerald?",
+    "expected_ids": [],
+    "category": "no-answer",
+    "challenge": "plausible-absent-entity",
+    "answerable": false
   }
 ]
