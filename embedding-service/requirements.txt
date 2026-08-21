@@ -1,0 +1,2 @@
+fastapi[standard]==0.141.1
+transformers>=4.51.0,<6
