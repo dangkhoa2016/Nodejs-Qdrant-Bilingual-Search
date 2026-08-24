@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a reproducible defect in the runtime, search path, tooling, or publication workflow.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for the report. Please remove secrets, tokens, private URLs, and unrelated runtime data before submitting.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Node.js API / search policy
+        - Qdrant connection / collection / snapshot
+        - Qwen3-Embedding-4B embedding service
+        - Dataset / translation / seeding
+        - Kaggle notebook / production demo
+        - CI / release / evidence tooling
+        - Documentation / repository governance
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: ref
+    attributes:
+      label: Repository commit or tag
+      placeholder: v1.0.0 or full commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Node.js version, Qdrant version, OS/Kaggle/CI context, and relevant runtime settings.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest deterministic sequence of commands or requests that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or evidence
+      description: Paste only the relevant sanitized excerpt. Do not attach secrets or private runtime archives.
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Submission hygiene
+      options:
+        - label: I removed API keys, tokens, credentials, private endpoints, and unrelated sensitive runtime data.
+          required: true
+        - label: I checked the documented known limitations and release scope before filing this as a defect.
+          required: true

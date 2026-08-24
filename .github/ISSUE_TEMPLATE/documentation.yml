@@ -1,0 +1,43 @@
+name: Documentation report
+description: Report inaccurate, incomplete, inconsistent, or unclear documentation.
+title: "[Docs]: "
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Page or file
+      placeholder: README.md, README.vi.md, docs/releases/v1.0.0.md, ...
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - English
+        - Vietnamese
+        - Both / bilingual consistency
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is inaccurate or unclear?
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source or evidence
+      description: If the report challenges a runtime/release claim, provide a reproducible source or evidence reference.
+  - type: checkboxes
+    id: provenance
+    attributes:
+      label: Publication check
+      options:
+        - label: I did not include secrets, private endpoints, or unsanitized runtime data.
+          required: true
