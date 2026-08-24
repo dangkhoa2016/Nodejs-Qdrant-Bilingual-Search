@@ -21,6 +21,7 @@ require_exact_or_unset() {
   export "$key"
 }
 
+require_exact_or_unset HOST '127.0.0.1'
 require_exact_or_unset EMBEDDING_MODEL 'Qwen/Qwen3-Embedding-4B'
 require_exact_or_unset EMBEDDING_PROFILE 'qwen3'
 require_exact_or_unset EMBEDDING_DIMENSION '2560'
@@ -44,6 +45,7 @@ export EMBEDDING_MODEL_PATH="$MODEL_PATH"
 print_contract() {
   cat <<EOF_CONTRACT
 QWEN3_TRANSFORMERS_VARIATION=transformers/default
+HOST=$HOST
 EMBEDDING_MODEL=$EMBEDDING_MODEL
 EMBEDDING_MODEL_PATH=$EMBEDDING_MODEL_PATH
 EMBEDDING_PROFILE=$EMBEDDING_PROFILE
