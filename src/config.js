@@ -17,7 +17,6 @@ const asFloat = (value, fallback) => {
   return Number.isFinite(parsed) ? parsed : fallback
 }
 
-
 const asBool = (name, value, fallback) => {
   if (value == null || String(value).trim() === '') return fallback
   const normalized = String(value).trim().toLowerCase()
@@ -99,6 +98,7 @@ function qdrantProfile(env) {
 
 export function loadConfig(env = process.env) {
   const config = {
+    host: String(env.HOST ?? '127.0.0.1').trim(),
     port: asInt(env.PORT, 3000),
     qdrant: qdrantProfile(env),
     qdrantCollection: env.QDRANT_COLLECTION ?? CANONICAL_QWEN_PROFILE.collection,
@@ -119,6 +119,7 @@ export function loadConfig(env = process.env) {
     searchDomainEntityIntentGateEnabled: asBool('SEARCH_DOMAIN_ENTITY_INTENT_GATE_ENABLED', env.SEARCH_DOMAIN_ENTITY_INTENT_GATE_ENABLED, CANONICAL_QWEN_PROFILE.searchDomainEntityIntentGateEnabled)
   }
 
+  if (!config.host) throw new Error('HOST must not be empty')
   if (config.port < 1 || config.port > 65535) throw new Error('PORT must be between 1 and 65535')
   if (config.embeddingDimension < 1) throw new Error('EMBEDDING_DIMENSION must be positive')
   assertPositiveInt('EMBEDDING_REQUEST_TIMEOUT_MS', config.embeddingTimeoutMs)
