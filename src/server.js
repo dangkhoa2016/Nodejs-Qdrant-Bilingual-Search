@@ -13,6 +13,6 @@ const app = createApp({
   info: () => environmentSnapshot({ config })
 })
 
-serve({ fetch: app.fetch, port: config.port }, (info) => {
-  console.log(`API listening on http://127.0.0.1:${info.port}`)
+serve({ fetch: app.fetch, port: config.port, hostname: config.host }, (info) => {
+  console.log(`API listening on http://${config.host}:${info.port}`)
 })

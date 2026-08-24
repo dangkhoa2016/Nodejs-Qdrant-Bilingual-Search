@@ -1,0 +1,14 @@
+# Default repository ownership
+* @dangkhoa2016
+
+# Project-critical public contracts
+/.github/ @dangkhoa2016
+/README.md @dangkhoa2016
+/README.vi.md @dangkhoa2016
+/data/ @dangkhoa2016
+/docs/releases/ @dangkhoa2016
+/embedding-service/ @dangkhoa2016
+/notebooks/ @dangkhoa2016
+/scripts/kaggle/ @dangkhoa2016
+/src/ @dangkhoa2016
+/tests/ @dangkhoa2016

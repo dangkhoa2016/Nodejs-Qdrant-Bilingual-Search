@@ -1,0 +1,51 @@
+name: Feature request
+description: Propose a focused improvement with explicit compatibility and qualification impact.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the user or engineering problem before proposing an implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome
+      description: Describe the behavior or capability you want to add.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary area
+      options:
+        - Search / API
+        - Embedding service
+        - Qdrant / indexing / snapshot lifecycle
+        - Dataset / translation / seeding
+        - Kaggle / production demo
+        - CI / release / evidence
+        - Documentation / governance
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and qualification impact
+      description: Note any effect on the semantic contract, snapshot identity, runtime, public topology, release evidence, or migration requirements.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I understand that changes to the accepted semantic/runtime contract require new qualification evidence rather than reuse of old evidence.
+          required: true

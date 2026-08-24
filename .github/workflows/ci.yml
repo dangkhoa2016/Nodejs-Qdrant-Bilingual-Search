@@ -20,6 +20,76 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci --ignore-scripts
       - run: npm test
+      - name: Production demo notebook contract
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs'
+          const path = 'notebooks/kaggle-cpu-fp16-production-demo.ipynb'
+          const nb = JSON.parse(fs.readFileSync(path, 'utf8'))
+          if (nb.nbformat !== 4) throw new Error('notebook must use nbformat 4')
+          const sourceText = (cell) => Array.isArray(cell.source) ? cell.source.join('') : String(cell.source ?? '')
+          const codeCells = nb.cells.filter((cell) => cell.cell_type === 'code')
+          for (const cell of codeCells) {
+            if (cell.execution_count !== null) throw new Error('committed notebook must have execution_count=null')
+            if (!Array.isArray(cell.outputs) || cell.outputs.length !== 0) throw new Error('committed notebook must have no stored outputs')
+          }
+          const text = nb.cells.map(sourceText).join('\n')
+          for (const token of [
+            'RUN_LIVE_DEMO',
+            'ENABLE_PUBLIC_TUNNEL = False',
+            'DEMO_PUBLIC"] = "0',
+            'restore-canonical-qdrant-snapshot.sh',
+            'production-demo-auth-gateway.mjs',
+            'start-authenticated-production-demo.sh',
+            'DEMO_BEARER_TOKEN_FILE',
+            '127.0.0.1:8090',
+            'AUTHENTICATED_PUBLIC_DEMO=NOT_RUN',
+            'public_completed',
+            '**English**',
+            '**Tiếng Việt**',
+            'Required / Bắt buộc',
+            'Optional / Tùy chọn',
+            'collect-production-demo-notebook-evidence.sh',
+            'Accelerator=None',
+            'Restart Session → Run All'
+          ]) {
+            if (!text.includes(token)) throw new Error(`notebook contract token missing: ${token}`)
+          }
+          console.log(`VALID NOTEBOOK: ${path}`)
+          NODE
+      - name: Production demo helper syntax
+        run: |
+          node --check scripts/kaggle/production-demo-auth-gateway.mjs
+          node --check scripts/kaggle/production-demo-acceptance.mjs
+          node --check src/server.js
+          bash -n scripts/kaggle/run-qwen3-transformers-fp16-cpu.sh
+          bash -n scripts/kaggle/prepare-canonical-qdrant-restore.sh
+          bash -n scripts/kaggle/restore-canonical-qdrant-snapshot.sh
+          bash -n scripts/kaggle/start-authenticated-production-demo.sh
+          bash -n scripts/kaggle/stop-authenticated-production-demo.sh
+          bash -n scripts/kaggle/collect-production-demo-notebook-evidence.sh
+          bash -n tests/kaggle/qdrant-storage-path-validation.sh
+          bash -n tests/kaggle/pre-restore-owned-qdrant-cleanup.sh
+          bash -n tests/kaggle/production-demo-publication-hygiene.sh
+          bash -n tests/kaggle/notebook-bootstrap-cleanliness.sh
+          bash -n tests/kaggle/qdrant-runtime-path-hygiene.sh
+          bash -n tests/kaggle/notebook-final-evidence-state.sh
+      - name: Fresh Kaggle Qdrant storage path regression
+        run: bash tests/kaggle/qdrant-storage-path-validation.sh
+      - name: Kaggle pre-restore owned Qdrant cleanup regression
+        run: bash tests/kaggle/pre-restore-owned-qdrant-cleanup.sh
+      - name: Qdrant runtime snapshot-path hygiene regression
+        run: bash tests/kaggle/qdrant-runtime-path-hygiene.sh
+      - name: Publication hygiene regression
+        run: bash tests/kaggle/production-demo-publication-hygiene.sh
+      - name: Notebook bootstrap cleanliness regression
+        run: bash tests/kaggle/notebook-bootstrap-cleanliness.sh
+      - name: Notebook final evidence-state regression
+        run: bash tests/kaggle/notebook-final-evidence-state.sh
+      - name: Production demo public topology contract
+        run: |
+          grep -F 'http://127.0.0.1:8090' scripts/kaggle/start-authenticated-production-demo.sh
+          ! grep -E 'cloudflared.*(6333|6334|8001|3000)' scripts/kaggle/start-authenticated-production-demo.sh
       - name: Translation dry-run smoke test
         run: npm run dataset:translate -- --input data/fixtures/tiny.json --provider groq --model ci-placeholder --dry-run
       - name: Public seed CLI syntax check
