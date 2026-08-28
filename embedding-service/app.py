@@ -10,15 +10,13 @@ from time import perf_counter
 import torch
 from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel, Field
+from sentence_transformers import SentenceTransformer
 
 from binary_transport import encode_float32_matrix
 from engine import EmbeddingConfig, EmbeddingEngine
 from model_loader import (
     assert_loaded_model_dtype,
-    assert_model_on_cpu,
-    build_transformers_model_kwargs,
-    build_transformers_tokenizer_kwargs,
-    disable_model_cache,
+    build_sentence_transformer_kwargs,
     resolve_model_load_target,
 )
 from profiles import EmbeddingProfile, resolve_embedding_profile
@@ -26,7 +24,6 @@ from provenance import embedding_runtime_identity
 from runtime_config import RuntimeConfig, resolve_runtime_config
 from request_stats import EmbeddingRequestStats
 from translation_engine import MarianBackend, TranslationConfig, TranslationEngine
-from transformers_engine import TransformersEmbeddingModel
 
 MODEL_NAME = os.getenv("EMBEDDING_MODEL", "intfloat/multilingual-e5-small")
 MODEL_LOAD_TARGET = resolve_model_load_target(
@@ -130,26 +127,17 @@ def _model_info() -> dict[str, object]:
     }
 
 
-def _build_embedding_model():
-    model_kwargs = build_transformers_model_kwargs(
+def _build_and_warm_engine() -> EmbeddingEngine:
+    model_kwargs = build_sentence_transformer_kwargs(
         RUNTIME,
         torch_module=torch,
+        profile_name=PROFILE.name,
     )
-    tokenizer_kwargs = build_transformers_tokenizer_kwargs(profile_name=PROFILE.name)
-    return SentenceTransformer(
-        MODEL_LOAD_TARGET,
-        model_kwargs=model_kwargs,
-        tokenizer_kwargs=tokenizer_kwargs,
-    )
-
-
-def _build_and_warm_engine() -> EmbeddingEngine:
-    model = _build_embedding_model()
+    model = SentenceTransformer(MODEL_LOAD_TARGET, **model_kwargs)
     ENGINE_INIT_STATE["construction_count"] = int(ENGINE_INIT_STATE["construction_count"]) + 1
 
     if PROFILE.name == "qwen3":
         assert_loaded_model_dtype(model, RUNTIME.dtype, torch_module=torch)
-        assert_model_on_cpu(model)
 
     model.max_seq_length = MAX_SEQ_LENGTH
 
@@ -185,36 +173,6 @@ def _build_and_warm_engine() -> EmbeddingEngine:
         ENGINE_INIT_STATE["warmup_count"],
     )
     return engine
-
-
-def _build_transformers_model(model_target: str, **kwargs) -> TransformersEmbeddingModel:
-    """Build a native Transformers AutoModel/AutoTokenizer adapter on CPU.
-
-    This is the production model factory for the qwen3 transformers profile.
-    """
-    from transformers import AutoModel, AutoTokenizer
-
-    model_kwargs = dict(kwargs.pop("model_kwargs", {}) or {})
-    tokenizer_kwargs = dict(kwargs.pop("tokenizer_kwargs", {}) or {})
-    tokenizer_kwargs.setdefault("padding_side", "left")
-
-    tokenizer = AutoTokenizer.from_pretrained(model_target, **tokenizer_kwargs)
-    raw_model = AutoModel.from_pretrained(model_target, **model_kwargs)
-    assert_model_on_cpu(raw_model)
-    disable_model_cache(raw_model)
-    raw_model.eval()
-    return TransformersEmbeddingModel(
-        raw_model,
-        tokenizer,
-        max_seq_length=MAX_SEQ_LENGTH,
-        batch_size=EMBEDDING_BATCH_SIZE,
-        device=RUNTIME.device,
-    )
-
-
-# Model-factory seam kept module-local so tests can inject fake encoders while
-# preserving the exact runtime loading behavior as a private default.
-SentenceTransformer = _build_transformers_model
 
 
 def get_engine() -> EmbeddingEngine:

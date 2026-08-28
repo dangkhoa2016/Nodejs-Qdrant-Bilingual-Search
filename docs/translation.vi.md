@@ -1,23 +1,22 @@
-# Kiến trúc dịch thuật và nhiều khóa API
-> 🌐 Language / Ngôn ngữ: [English](translation.md) | **Tiếng Việt**
+# Kiến trúc dịch thuật và multiple API keys
 
 ## Nguyên tắc
 
-Dịch là việc làm phong phú tập dữ liệu tùy chọn, không phải là yêu cầu runtime cho tìm kiếm ngữ nghĩa. Tiếng Việt bản địa từ GeoNames hoặc Who's On First không bao giờ bị ghi đè. provider mặc định là `none`.
+Translation chỉ là enrichment stage tùy chọn, không phải điều kiện để semantic search hoạt động. Tiếng Việt native từ GeoNames/WOF không bị ghi đè. Default provider là `none`.
 
-providers được hỗ trợ là `none`, `local`, `openai`, `gemini`, `nvidia` và `groq`. Ứng dụng sử dụng `fetch` gốc cho các cuộc gọi REST trên đám mây và do đó không yêu cầu gói SDK của nhà cung cấp.
+Các mode: `none`, `local`, `openai`, `gemini`, `nvidia`, `groq`. Cloud REST dùng native `fetch`, không cần cài vendor SDK.
 
-## Ranh giới Provider
+## Provider boundary
 
-`createTranslationProvider()` trả về một provider phổ biến hiển thị `provider`, `model`, `promptVersion` và `translate()`. `TranslationService` bổ sung thêm cache/xuất xứ liên tục. Mã bộ dữ liệu gọi hợp đồng đó và không biết hình dạng HTTP của nhà cung cấp.
+`createTranslationProvider()` trả một contract chung gồm `provider`, `model`, `promptVersion`, `translate()`. `TranslationService` bổ sung cache và provenance. Dataset pipeline không cần biết JSON schema riêng của từng vendor.
 
-OpenAI sử dụng Responses API. Gemini sử dụng `models/{model}:generateContent`. NVIDIA và Groq chia sẻ bộ điều hợp hoàn thành trò chuyện tương thích với OpenAI với các URL cơ sở dành riêng cho nhà cung cấp.
+OpenAI dùng Responses API; Gemini dùng `models/{model}:generateContent`; NVIDIA và Groq dùng chung adapter OpenAI-compatible chat completions với base URL riêng.
 
-Không có chuyển đổi dự phòng tự động giữa các nhà cung cấp. Nếu `TRANSLATION_PROVIDER=groq`, quá trình chạy vẫn ở Groq. Điều này giữ cho đầu ra model/xuất xứ được xác định. Nhiều khóa chỉ cải thiện khả năng phục hồi và phân phối hạn ngạch **bên trong provider đã chọn**.
+Không có auto-failover giữa provider. Nếu chọn `TRANSLATION_PROVIDER=groq` thì run đó luôn là Groq để provenance/model ổn định. Multiple key chỉ cân bằng quota và tăng resilience **bên trong provider đã chọn**.
 
-## Khám phá nhiều khóa
+## Phát hiện multiple key
 
-Lớp khám phá khóa chấp nhận các biến được đánh số với các khoảng trống số tùy ý:
+Cho phép số bị nhảy:
 
 ```env
 OPENAI_KEY1=...
@@ -31,20 +30,18 @@ GROQ_KEY2=...
 GROQ_KEY10=...
 ```
 
-`OPENAI_API_KEY`, `GEMINI_API_KEY`, `NVIDIA_API_KEY`, `GROQ_API_KEY` thông thường vẫn được hỗ trợ. Các giá trị bí mật trùng lặp sẽ được loại bỏ. Các phím được đánh số được sắp xếp theo thứ tự số trước phím dự phòng.
+Vẫn tương thích `OPENAI_API_KEY`, `GEMINI_API_KEY`, `NVIDIA_API_KEY`, `GROQ_API_KEY`. Secret trùng nhau được dedupe. Numbered keys được sort theo số rồi mới tới fallback key.
 
-## Chính sách nhóm khóa
+## Key-pool policy
 
-Chiến lược mặc định là `round-robin` trong số các khóa sẵn sàng.
+Default là `round-robin` giữa key đang ready.
 
-- HTTP `401/403`: khóa hiện tại bị vô hiệu hóa đối với rest của lần chạy process đó, sau đó sẽ nhận được một khóa sẵn sàng khác.
-- HTTP `429`: phím vào thời gian hồi chiêu; `Retry-After` được vinh danh khi có mặt; một khóa sẵn sàng khác được lấy.
-- HTTP `408/425/500/502/503/504` và các lỗi mạng Node/Undici đã biết: retry bị giới hạn xảy ra trên **cùng một khóa**. Việc luân phiên thông tin xác thực không giải quyết được tình trạng ngừng hoạt động của provider.
-- Các lỗi Request/model như `400/404/422`: hỏng nhanh thay vì lãng phí từng phím.
-- Nếu tất cả các phím bị tắt, `ApiKeyPoolExhaustedError` sẽ được nâng lên.
-- Nếu tất cả các phím được bật đang làm mát, nhóm chỉ chờ trong `TRANSLATION_KEY_MAX_WAIT_MS`; nếu không thì nó báo lỗi làm mát.
-
-Cấu hình:
+- `401/403`: disable key hiện tại trong process run và chuyển sang key khác.
+- `429`: cooldown key, tôn trọng `Retry-After` nếu provider trả về, rồi dùng key ready khác.
+- `408/425/500/502/503/504` và network/Undici transient: retry **cùng key** với bounded exponential backoff; đổi credential không giải quyết provider outage.
+- `400/404/422`: fail-fast vì thường là model/request sai.
+- Hết toàn bộ key usable: `ApiKeyPoolExhaustedError`.
+- Tất cả key đang cooldown: chỉ chờ trong `TRANSLATION_KEY_MAX_WAIT_MS`, vượt budget thì báo cooling error.
 
 ```env
 TRANSLATION_KEY_STRATEGY=round-robin
@@ -56,27 +53,27 @@ TRANSLATION_RETRY_MAX_DELAY_MS=2000
 TRANSLATION_RETRY_JITTER_RATIO=0.2
 ```
 
-## Xử lý bí mật
+## Bảo mật secret
 
-Đối tượng thuê giữ bí mật riêng tư. `toJSON()` và nhóm khóa snapshots chỉ hiển thị tên/trạng thái/bộ đếm vị trí. Lỗi đám mây HTTP lưu trữ mã provider/trạng thái/transport nhưng không giữ lại các tiêu đề request thô hoặc giá trị khóa API.
+Lease giữ secret bằng private field. Snapshot/`toJSON()` chỉ hiển thị slot/status/counter. Error cloud chỉ giữ provider/status/transport code, không giữ raw Authorization header hay key value.
 
-Nguồn gốc dịch không bao giờ chứa khe khóa API vì khóa là cơ sở hạ tầng vận hành chứ không phải nguồn gốc dữ liệu.
+Translation provenance cũng không lưu key slot vì key chỉ là hạ tầng thực thi, không phải provenance của dữ liệu.
 
-## Cache/tiếp tục
+## Cache/resume
 
-Đường dẫn mặc định:
+Default:
 
 ```text
 data/generated/translation-cache.jsonl
 ```
 
-Danh tính Cache là SHA-256 trên provider, model, phiên bản nhắc nhở, hướng ngôn ngữ và văn bản nguồn SHA-256. Khe khóa API bị cố ý loại trừ. Do đó, quá trình chạy có thể bắt đầu trên `GROQ_KEY1`, xoay sang `GROQ_KEY2`, khởi động lại sau và vẫn sử dụng lại các bản dịch trước đó.
+Cache identity là SHA-256 của provider/model/prompt version/language direction/source-text hash và cố ý không chứa API key slot. Một run có thể bắt đầu bằng `GROQ_KEY1`, chuyển `GROQ_KEY2`, restart rồi vẫn reuse các bản dịch đã hoàn tất.
 
-cache là JSONL chỉ bổ sung và được tải vào bản đồ theo yêu cầu. requests trùng lặp đồng thời được kết hợp lại bằng một bản đồ trên chuyến bay để một văn bản không được dịch hai lần trong cùng một process.
+JSONL cache là append-only. Trong cùng process, các request trùng text còn được coalesce bằng in-flight map để không gọi API hai lần.
 
-## Xuất xứ
+## Provenance
 
-Các trường được tạo nhận siêu dữ liệu:
+Metadata machine translation:
 
 ```json
 {
@@ -90,11 +87,11 @@ Các trường được tạo nhận siêu dữ liệu:
 }
 ```
 
-`languageProvenance.description_vi` trở thành `machine_translation`. Ruộng đồng Việt Nam vẫn giữ được nguồn gốc xuất xứ ban đầu.
+`languageProvenance.description_vi` trở thành `machine_translation`; field VI native vẫn giữ provenance nguồn gốc.
 
-## Lệnh
+## Chạy
 
-Chạy khô mà không tiêu tốn hạn ngạch đám mây:
+Dry-run không tốn cloud quota:
 
 ```bash
 npm run dataset:translate -- \
@@ -104,7 +101,7 @@ npm run dataset:translate -- \
   --dry-run
 ```
 
-Chạy:
+Run thật:
 
 ```bash
 export GROQ_KEY1='...'
@@ -112,7 +109,7 @@ export GROQ_KEY2='...'
 npm run dataset:translate -- --provider groq --model your-model-id --fields description
 ```
 
-Chế độ cục bộ sử dụng Python service:
+Local Python:
 
 ```bash
 TRANSLATION_PROVIDER=local \
@@ -120,4 +117,4 @@ TRANSLATION_MODEL=Helsinki-NLP/opus-mt-en-vi \
 npm run dataset:translate
 ```
 
-ID Cloud model không bao giờ được mã hóa cứng làm mặc định vì tính khả dụng, giá cả và hành vi có thể thay đổi. Cung cấp `TRANSLATION_MODEL` một cách rõ ràng.
+Cloud model ID không có default hard-code vì availability/pricing/behavior thay đổi theo thời gian; hãy truyền `TRANSLATION_MODEL` rõ ràng.

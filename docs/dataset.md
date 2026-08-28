@@ -1,5 +1,4 @@
 # Public dataset pipeline
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](dataset.vi.md)
 
 The public build uses **GeoNames `cities15000` as the canonical geographic backbone** and **Who's On First (WOF) as optional multilingual enrichment**. Wikidata is not part of the public ingestion path.
 

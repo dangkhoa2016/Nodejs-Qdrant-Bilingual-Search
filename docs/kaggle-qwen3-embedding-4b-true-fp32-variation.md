@@ -1,5 +1,4 @@
 # Kaggle CPU true-FP32 variation — Qwen3-Embedding-4B
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](kaggle-qwen3-embedding-4b-true-fp32-variation.vi.md)
 
 This add-on is for `nodejs-qdrant-bilingual-search` after the runtime-contract reuse hardening baseline.
 

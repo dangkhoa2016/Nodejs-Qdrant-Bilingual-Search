@@ -1,5 +1,3 @@
-import { requireVerifiedSemanticEmbeddingRuntime } from '../embeddings/runtime-provenance.js'
-
 const EMBEDDING_RUNTIME_PAYLOAD_FIELDS = {
   accelerator: 'embedding_accelerator',
   device: 'embedding_device',
@@ -18,13 +16,6 @@ const INDEXES = [
 ]
 
 const DEFAULT_SEED_STATE_SCROLL_PAGE_SIZE = 256
-
-const SEMANTIC_INDEX_RUNTIME_FIELDS = [
-  'profile',
-  'query_strategy',
-  'query_instruction_id',
-  'document_strategy'
-]
 
 function errorText(error) {
   const parts = []
@@ -213,11 +204,8 @@ export class QdrantService {
     return state
   }
 
-  async verifyEmbeddingRuntime({ expectedPoints, runtime, embeddingModel, embeddingTextVersion, semanticAuditOnly = false }) {
+  async verifyEmbeddingRuntime({ expectedPoints, runtime, embeddingModel, embeddingTextVersion }) {
     if (!Number.isInteger(expectedPoints) || expectedPoints < 1) throw new TypeError('expectedPoints must be a positive integer')
-    if (semanticAuditOnly) {
-      requireVerifiedSemanticEmbeddingRuntime(runtime)
-    }
     const backend = String(runtime?.backend ?? '').trim()
     const implementation = String(runtime?.implementation ?? '').trim()
     const semantic = runtime?.semantic === true
@@ -226,13 +214,9 @@ export class QdrantService {
     const expectedEmbeddingModel = String(embeddingModel ?? '').trim()
     const expectedEmbeddingTextVersion = String(embeddingTextVersion ?? '').trim()
     for (const key of Object.keys(EMBEDDING_RUNTIME_PAYLOAD_FIELDS)) {
-      if (semanticAuditOnly && !SEMANTIC_INDEX_RUNTIME_FIELDS.includes(key)) continue
       const value = String(runtime?.[key] ?? '').trim()
       if (value) expectedRuntime[key] = value
     }
-    const comparedRuntimeFields = semanticAuditOnly
-      ? SEMANTIC_INDEX_RUNTIME_FIELDS
-      : Object.keys(EMBEDDING_RUNTIME_PAYLOAD_FIELDS)
 
     const info = await this.connection.execute('getCollection:embedding-runtime-audit', (client) => client.getCollection(this.collection))
     const strict = strictModeState(info)
@@ -262,19 +246,13 @@ export class QdrantService {
       pointsCount += points.length
       for (const point of points) {
         const payload = point?.payload ?? {}
-        let matches
-        if (semanticAuditOnly) {
-          matches = payload.embedding_semantic === true
-        } else {
-          matches = payload.embedding_backend === backend &&
-            payload.embedding_implementation === implementation &&
-            payload.embedding_semantic === true
-        }
+        let matches = payload.embedding_backend === backend &&
+          payload.embedding_implementation === implementation &&
+          payload.embedding_semantic === true
         if (matches && expectedEmbeddingModel && payload.embedding_model !== expectedEmbeddingModel) matches = false
         if (matches && expectedEmbeddingTextVersion && payload.embedding_text_version !== expectedEmbeddingTextVersion) matches = false
         if (matches) {
-          for (const key of comparedRuntimeFields) {
-            const payloadField = EMBEDDING_RUNTIME_PAYLOAD_FIELDS[key]
+          for (const [key, payloadField] of Object.entries(EMBEDDING_RUNTIME_PAYLOAD_FIELDS)) {
             if (expectedRuntime[key] && payload[payloadField] !== expectedRuntime[key]) {
               matches = false
               break

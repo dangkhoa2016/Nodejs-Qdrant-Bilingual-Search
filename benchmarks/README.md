@@ -1,5 +1,4 @@
 # Semantic retrieval benchmarks
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](README.vi.md)
 
 The committed benchmark corpora serve two different purposes and should not be merged or rewritten in place.
 

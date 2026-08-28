@@ -1,5 +1,4 @@
 # Qwen3-Embedding-4B on Google Colab T4
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](qwen3-embedding-colab.vi.md)
 
 > **Canonical promotion note (2026-08-26):** the application now targets `knowledge_entities_qwen3_4b_text_v21` with `embedding_text v2.1` by default. This document contains historical v1 bootstrap/reseed commands; keep `knowledge_entities_qwen3_4b_v1` as rollback/reference and do not run destructive v1 commands unless you explicitly intend to rebuild that reference collection.
 

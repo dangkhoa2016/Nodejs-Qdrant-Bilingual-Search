@@ -195,7 +195,7 @@ ensure_node_dependencies() {
 
 ensure_python_dependencies() {
   if python - <<'PY' >/dev/null 2>&1
-import fastapi, uvicorn, transformers
+import fastapi, uvicorn, sentence_transformers
 PY
   then return 0; fi
   if [[ "$DEMO_INSTALL_DEPS" != "1" ]]; then
@@ -348,7 +348,7 @@ function expectEqual(label, actual, expected) {
 
 expectEqual('model', x.model, 'Qwen/Qwen3-Embedding-4B')
 if (Number(x.dimension) !== 2560) mismatches.push(`dimension expected=2560 actual=${x.dimension ?? '<missing>'}`)
-expectEqual('backend', x.backend, 'transformers')
+expectEqual('backend', x.backend, 'sentence-transformers')
 expectEqual('implementation', x.implementation, 'python-fastapi')
 expectEqual('semantic', x.semantic, true)
 expectEqual('profile', x.profile, 'qwen3')

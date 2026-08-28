@@ -1,5 +1,4 @@
 # Data licensing and provenance
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](LICENSE-DATA.vi.md)
 
 Application code and generated data have separate licensing concerns. Every normalized entity keeps source provenance through `source`, `sourceId`, and `sourceRefs`.
 

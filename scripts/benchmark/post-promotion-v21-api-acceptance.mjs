@@ -51,7 +51,7 @@ const cases = selectPostPromotionAcceptanceCases(allCases)
 const preflightRaw = await collectBenchmarkPreflight({
   apiUrl,
   embeddingUrlOverride: process.env.BENCHMARK_EMBEDDING_URL,
-  expectedBackend: process.env.BENCHMARK_EMBEDDING_BACKEND ?? 'transformers',
+  expectedBackend: 'sentence-transformers',
   expectedImplementation: 'python-fastapi'
 })
 const verifiedPreflight = assertCanonicalApiPreflight(preflightRaw, { expectedPoints: EXPECTED_POINTS })

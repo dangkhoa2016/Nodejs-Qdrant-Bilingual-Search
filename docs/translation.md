@@ -1,5 +1,4 @@
 # Translation architecture and multiple API keys
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](translation.vi.md)
 
 ## Principle
 

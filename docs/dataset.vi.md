@@ -1,37 +1,38 @@
-# Pipeline dữ liệu công khai
-> 🌐 Language / Ngôn ngữ: [English](dataset.md) | **Tiếng Việt**
+# Pipeline public dataset
 
-Bản dựng công khai sử dụng **GeoNames `cities15000` làm xương sống địa lý canonical** và **Who's On First (WOF) làm nội dung đa ngôn ngữ tùy chọn**. Wikidata không nằm trong đường dẫn nhập công khai.
+Public build dùng **GeoNames `cities15000` làm geographic backbone canonical** và **Who's On First (WOF) làm enrichment đa ngôn ngữ tùy chọn**. Wikidata không còn nằm trong public ingestion path.
 
-## Xương sống GeoNames
+## GeoNames backbone
 
-GeoNames cung cấp danh tính ứng dụng canonical và thông tin địa lý. GeoNames xuất bản công báo theo **CC BY 4.0**. ID thành phố vẫn còn:
+GeoNames phát hành gazetteer theo giấy phép **CC BY 4.0**.
+
+GeoNames sở hữu canonical identity và geography facts. ID giữ nguyên:
 
 ```text
 geonames:city:<geonameid>
 geonames:country:<geonameid>
 ```
 
-Trình xây dựng đọc `cities15000.zip`, `countryInfo.txt`, `admin1CodesASCII.txt`, sau đó chỉ truyền `alternateNamesV2.zip` cho các thực thể tồn tại trong lựa chọn đại diện xác định. Tên thay thế `en`/`vi` rõ ràng có thể thay thế tên dự phòng GeoNames không được gắn thẻ. Các tên thay thế được gắn thẻ tiếng Việt vẫn giữ nguyên chuẩn hóa kế thừa hẹp `Ð/ð → Đ/đ`.
+Builder đọc `cities15000.zip`, `countryInfo.txt`, `admin1CodesASCII.txt`, sau đó stream `alternateNamesV2.zip` chỉ cho entity sống sót sau representative selection deterministic. Alternate name `en`/`vi` rõ language tag có thể thay GeoNames fallback. Row `vi` vẫn áp dụng normalization hẹp `Ð/ð → Đ/đ`.
 
-GeoNames không hoạt động nhanh đối với UTF-8 không đúng định dạng, ký tự thay thế, hình dạng hàng không hợp lệ, tọa độ không hợp lệ và ID không hợp lệ. QA địa lý vẫn từ chối bộ dữ liệu thành phố lớn mất Bắc hoặc Nam Mỹ.
+GeoNames vẫn fail-fast với UTF-8 hỏng, replacement character, row shape/coordinate/ID không hợp lệ. Geographic QA vẫn chặn large-city dataset mất hoàn toàn North America hoặc South America.
 
-## Làm giàu Who's On First
+## Who's On First enrichment
 
-WOF là **nguồn làm giàu có nỗ lực cao nhất**, không bao giờ là nguồn địa lý canonical. Các bản tải xuống hiện tại là kho lưu trữ GeoJSON `tar.bz2` của địa phương và quốc gia toàn cầu do Geocode Earth xuất bản.
+WOF là **best-effort enrichment**, không thay GeoNames làm canonical geography. Nguồn hiện tại là global locality/country GeoJSON `tar.bz2` do Geocode Earth phát hành.
 
-WOF chỉ được nối bởi sự phù hợp chính GeoNames duy nhất `wof:concordances["gn:id"]`. Sự phù hợp thay thế và các trường `gn:geonameid` đã nhập không bao giờ là danh tính canonical và các bản ghi có nhiều ID GeoNames chính sẽ bị cách ly. Không có sự trùng khớp tên mờ. Các loại địa điểm được chấp nhận là:
+Join chỉ dùng duy nhất primary GeoNames concordance `wof:concordances["gn:id"]`. Alternate concordance và `gn:geonameid` imported không được coi là canonical identity; record có nhiều primary GeoNames ID bị quarantine. Tuyệt đối không fuzzy-match theo tên. Placetype hợp lệ:
 
 - canonical `city` → WOF `locality`;
 - canonical `country` → WOF `country` hoặc `dependency`.
 
-Ưu tiên tiếng Anh là tên ưa thích WOF > tiếng Anh GeoNames rõ ràng > dự phòng GeoNames. Ưu tiên tiếng Việt là rõ ràng GeoNames Tiếng Việt > Tiếng Việt ưu tiên WOF > thiếu. Tên/bí danh WOF `vie` chứa `Ð/ð` kế thừa sẽ bị loại bỏ thay vì viết lại và các tên chính không được chọn sẽ được giữ lại làm bí danh. WOF chỉ đóng góp siêu dữ liệu ngôn ngữ/danh tính (`wofId`, loại địa điểm, tên, bí danh, `sourceRefs`); GeoNames tiếp tục sở hữu dân số, tọa độ, dữ liệu quốc gia/quản trị viên và múi giờ.
+Thứ tự English là WOF preferred > GeoNames English explicit > GeoNames fallback. Thứ tự Vietnamese là GeoNames Vietnamese explicit > WOF preferred Vietnamese > missing. WOF `vie` name/alias có legacy `Ð/ð` bị loại thay vì tự sửa ký tự; primary name không được chọn vẫn được giữ thành alias. WOF chỉ đóng góp language/identity metadata (`wofId`, placetype, names, aliases, `sourceRefs`); population, coordinates, country/admin data và timezone vẫn do GeoNames sở hữu.
 
-Nếu nhiều bản ghi WOF yêu cầu cùng một ID GeoNames hoặc một ID WOF yêu cầu nhiều thực thể GeoNames thì danh tính đó sẽ bị cách ly: bản ghi GeoNames được giữ nguyên và việc làm giàu WOF bị bỏ qua đối với bản ghi đó. Đường dẫn lưu trữ là bộ nhớ giới hạn: `bzip2` phát ra luồng TAR, trình đọc đóng khung một mục nhập GeoJSON tại một thời điểm, chỉ giải mã đối tượng `properties` của nó, từ chối các sự phù hợp GeoNames không liên quan trước `JSON.parse` và releases mục nhập thô trước khi tiếp tục. Hình học không bao giờ được giữ lại trong quá trình làm giàu candidates. Các bản ghi WOF có liên quan không đúng định dạng sẽ được tính và bỏ qua. Nếu không có một kho lưu trữ WOF, quá trình xây dựng sẽ tiếp tục với GeoNames và ghi lại trạng thái `partial`/`unavailable` trong tệp kê khai.
+Nếu nhiều WOF record cùng claim một GeoNames ID, hoặc một WOF ID claim nhiều GeoNames entity, identity đó bị quarantine: giữ nguyên GeoNames entity và skip riêng WOF enrichment. Đường đọc archive dùng bộ nhớ có giới hạn: `bzip2` phát TAR stream, reader frame từng GeoJSON entry, chỉ decode object `properties`, loại GeoNames concordance không liên quan trước `JSON.parse`, rồi giải phóng raw entry trước record kế tiếp. Geometry không được giữ trong enrichment candidate. WOF record liên quan nhưng malformed được đếm và bỏ qua. Nếu một archive WOF không tải/đọc được, build vẫn tiếp tục bằng GeoNames và ghi `partial`/`unavailable` trong manifest.
 
-## Cache và độ tái lập
+## Cache và reproducibility
 
-Theo mặc định, kho lưu trữ WOF được lưu trữ trong `data/cache/wof`. Tải xuống được ghi nguyên tử và SHA-256 được ghi trong `manifest.wofEnrichment.archives`. Chạy lại mà không có `--wof-refresh` sẽ sử dụng lại kho lưu trữ đã lưu trong bộ nhớ đệm.
+Archive WOF mặc định cache tại `data/cache/wof`. Download dùng atomic write và SHA-256 được ghi vào `manifest.wofEnrichment.archives`. Chạy lại không có `--wof-refresh` sẽ reuse cache.
 
 ```bash
 npm run dataset:build -- \
@@ -40,7 +41,7 @@ npm run dataset:build -- \
   --limit 20000
 ```
 
-Sử dụng cache tùy chỉnh hoặc buộc snapshot ngược dòng mới:
+Custom cache hoặc refresh snapshot upstream:
 
 ```bash
 npm run dataset:build -- \
@@ -49,18 +50,18 @@ npm run dataset:build -- \
   --limit 20000
 ```
 
-baseline chỉ dành cho GeoNames vẫn khả dụng:
+GeoNames-only baseline vẫn giữ:
 
 ```bash
 npm run dataset:build -- --sources geonames --types city --limit 20000
 ```
 
-## Bản kê khai v6
+## Manifest v6
 
-Tệp kê khai ghi lại số lượng nguồn, số lượng đã chọn, phạm vi địa lý/ngôn ngữ, tên tập dữ liệu GeoNames và chẩn đoán làm giàu WOF. `wofEnrichment` chứa trạng thái, số lượng được yêu cầu/khớp/không rõ ràng/không hợp lệ, bộ đếm lưu trữ `scanned` và `skippedUnmatched`, trạng thái theo loại, URL lưu trữ/tệp/SHA-256 và các mẫu không rõ ràng giới hạn. Trong quá trình quét thực, tiến trình stderr định kỳ bao gồm các bản ghi được quét, ID mục tiêu trùng khớp, số lượng bị bỏ qua/không hợp lệ, vùng heap, RSS và thời gian đã trôi qua.
+Manifest ghi source counts, selected count, coverage địa lý/ngôn ngữ, GeoNames dataset name và WOF diagnostics. `wofEnrichment` có status, requested/matched/ambiguous/invalid, counter `scanned` và `skippedUnmatched`, trạng thái theo type, archive URL/file/SHA-256 và ambiguity samples có giới hạn. Khi scan thật, progress định kỳ trên stderr hiển thị số record đã quét, target đã match, skipped/invalid, heap, RSS và elapsed time.
 
-`dataQuality.policy` là `geonames_fail_fast_wof_best_effort`: canonical GeoNames lỗi chất lượng vẫn nghiêm trọng trong khi các sự cố WOF tùy chọn không phá hủy tập dữ liệu hợp lệ. `dataQuality.checks` ghi lại các bất biến đầu ra cuối cùng cho các ID canonical trùng lặp, các tham chiếu nguồn trùng lặp và văn bản `Ð/ð` kế thừa tiếng Việt còn lại; sự chấp nhận yêu cầu cả ba bộ đếm đều bằng 0.
+`dataQuality.policy = geonames_fail_fast_wof_best_effort`: lỗi canonical GeoNames vẫn fatal; lỗi optional WOF không được phép phá dataset GeoNames hợp lệ. `dataQuality.checks` ghi ba invariant của output cuối: duplicate canonical ID, duplicate source reference và Vietnamese legacy `Ð/ð`; acceptance yêu cầu cả ba counter bằng 0.
 
-## Dịch thuật
+## Translation
 
-Dịch máy vẫn là một giai đoạn tùy chọn riêng biệt. Thiếu tiếng Việt là hợp lệ. Tiếng Việt gốc GeoNames hoặc WOF không bao giờ bị ghi đè. Các giá trị được tạo được đánh dấu `machine_translation` bằng xuất xứ provider/model/prompt/source-hash/version.
+Machine translation vẫn là stage tùy chọn riêng. Thiếu tiếng Việt là hợp lệ. Vietnamese native từ GeoNames/WOF không bị ghi đè. Field generated dùng provenance `machine_translation` cùng provider/model/prompt/source-hash/version.

@@ -1,5 +1,4 @@
 # Architecture
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](architecture.vi.md)
 
 ## Boundaries
 

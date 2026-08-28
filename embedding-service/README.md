@@ -1,5 +1,4 @@
 # Local embedding service
-> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](README.vi.md)
 
 This is the only Python ML component. The public application server remains Hono/Node.js; Python is isolated to embedding inference.
 
