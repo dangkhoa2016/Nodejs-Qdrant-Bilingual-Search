@@ -52,5 +52,7 @@
 - vectors công khai vẫn được chuẩn hóa Float32[2560]
 - Việc tái sử dụng canonical snapshot đã được phê duyệt; không cần reseed
 - Khôi phục canonical snapshot được ghim vào Qdrant 1.18.3 và SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
-- Kaggle thực **Phiên khởi động lại → Chạy tất cả** trên `main` HEAD cuối cùng vẫn là gate được chấp nhận cuối cùng trước khi siêu dữ liệu release bị ghi đè
+- một lần Kaggle **Khởi động lại phiên → Chạy tất cả** sạch đã hoàn tất trên source commit tái cấu trúc `b316619ad94947571e91124adfe96071bbd1f255`; SHA-256 của bằng chứng được xem xét độc lập là `3ab21f5d05dc8188d543167dce806b28144f2d2e6cc780e4eab0bdb895f7037a`
+- local Kaggle acceptance đạt 7/7; đường dẫn công khai có xác thực tùy chọn không được chạy và được ghi là `NOT_RUN`
+- nguồn gốc tái cấu trúc lịch sử repository và retarget tag `v1.0.0` được công bố trong tài liệu release; delta closeout sau bằng chứng chỉ giới hạn ở tài liệu release và các version pin của GitHub Actions, không thay đổi ứng dụng, runtime, test hoặc nội dung notebook
 - xác thực Kaggle cốt lõi cục bộ không yêu cầu đường hầm công cộng được xác thực tùy chọn; mọi xác nhận quyền sở hữu release demo công khai đều yêu cầu Phần 6–7 và `PRODUCTION_DEMO_ACCEPTANCE_PASS=8`
