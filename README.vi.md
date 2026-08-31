@@ -28,7 +28,7 @@ Tìm kiếm ngữ nghĩa tiếng Anh/tiếng Việt trên kho ngữ liệu đị
 | Transport | `binary-f32` |
 | Trình xác minh ngữ nghĩa Canonical | 20.000 / 20.000 ĐẠT |
 | Khói ổn định sentinels | Thái Lan EN, Tokyo VI, Bắc Kinh VI, Casablanca âm = PASS |
-| Bộ kiểm tra Node | 447/447 ĐẠT |
+| Bộ kiểm tra Node | 454/454 ĐẠT |
 | CI | Node 22 + Node 24 + Công cụ Python + Tích hợp Qdrant |
 
 repository này là **demo/runtime profile tìm kiếm ngữ nghĩa di động đã được xác thực**. Nó không được trình bày dưới dạng ngăn xếp phân phối GPU có độ trễ thấp.
@@ -372,6 +372,14 @@ tests/              unit, HTTP, architecture and integration tests
 - Qdrant và embedding service phải ở chế độ riêng tư/cục bộ trừ khi được bảo mật có chủ ý để sử dụng từ xa.
 - Mã ứng dụng tuân theo giấy phép repository.
 - Nguồn tập dữ liệu có các yêu cầu ghi công riêng biệt; xem [data/LICENSE-DATA.md](data/LICENSE-DATA.md).
+
+## Cộng đồng và governance
+
+- [Đóng góp](.github/CONTRIBUTING.vi.md) / [Contributing](.github/CONTRIBUTING.md)
+- [Security policy](.github/SECURITY.md)
+- [Hỗ trợ](.github/SUPPORT.vi.md) / [Support](.github/SUPPORT.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Issue templates](.github/ISSUE_TEMPLATE) và [pull-request checklist](.github/PULL_REQUEST_TEMPLATE.md)
 
 ## Bản phát hành
 

@@ -28,7 +28,7 @@ The accepted `v1.0.0` runtime is designed for a portable Kaggle CPU environment:
 | Transport | `binary-f32` |
 | Canonical semantic verifier | 20,000 / 20,000 PASS |
 | Stable smoke sentinels | Thailand EN, Tokyo VI, Beijing VI, Casablanca negative = PASS |
-| Node test suite | 447 / 447 PASS |
+| Node test suite | 454 / 454 PASS |
 | CI | Node 22 + Node 24 + Python engine + Qdrant integration |
 
 This repository is a **validated portable semantic-search demo/runtime profile**. It is not presented as a low-latency GPU serving stack.
@@ -365,6 +365,14 @@ tests/              unit, HTTP, architecture and integration tests
 - No RAG layer.
 - No automatic runtime reseeding.
 - Relation-style diagnostics can expose model/snapshot ranking limitations even when canonical semantic verification passes.
+
+## Community and governance
+
+- [Contributing](.github/CONTRIBUTING.md) / [Đóng góp](.github/CONTRIBUTING.vi.md)
+- [Security policy](.github/SECURITY.md)
+- [Support](.github/SUPPORT.md) / [Hỗ trợ](.github/SUPPORT.vi.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Issue templates](.github/ISSUE_TEMPLATE) and [pull-request checklist](.github/PULL_REQUEST_TEMPLATE.md)
 
 ## Security and provenance
 

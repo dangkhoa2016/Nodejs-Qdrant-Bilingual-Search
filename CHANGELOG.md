@@ -52,5 +52,7 @@
 - public vectors remain normalized Float32[2560]
 - canonical snapshot reuse is approved; no reseed is required
 - canonical snapshot restore is pinned to Qdrant 1.18.3 and SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
-- a real Kaggle **Restart Session → Run All** on the final `main` HEAD remains the final acceptance gate before release metadata is overwritten
+- a clean Kaggle **Restart Session → Run All** completed on reconstructed source commit `b316619ad94947571e91124adfe96071bbd1f255`; independently reviewed evidence SHA-256 is `3ab21f5d05dc8188d543167dce806b28144f2d2e6cc780e4eab0bdb895f7037a`
+- local Kaggle acceptance passed 7/7; the optional authenticated public path was not run and is recorded as `NOT_RUN`
+- repository-history reconstruction and `v1.0.0` tag-retarget provenance are disclosed in the release documentation; the post-evidence closeout delta is limited to release documentation and GitHub Actions version pins, with no application, runtime, test, or notebook-content changes
 - core local Kaggle validation does not require the optional authenticated public tunnel; any public-demo release claim does require Sections 6–7 and `PRODUCTION_DEMO_ACCEPTANCE_PASS=8`
