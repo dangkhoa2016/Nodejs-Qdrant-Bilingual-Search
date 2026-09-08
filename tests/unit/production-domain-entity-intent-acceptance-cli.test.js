@@ -8,13 +8,13 @@ test('package exposes one-command real production domain/entity-intent acceptanc
   const pkg = JSON.parse(await readFile(repoFile('package.json'), 'utf8'))
   assert.equal(
     pkg.scripts['acceptance:v21-production-domain-entity-intent:run'],
-    'NODE_ENV=development node scripts/benchmark/v21-production-domain-entity-intent-acceptance.mjs'
+    'NODE_ENV=development node scripts/acceptance/v21-production-domain-entity-intent.mjs'
   )
   assert.equal(
     pkg.scripts['acceptance:v21-production-domain-entity-intent'],
     'bash scripts/acceptance/v21-production-domain-entity-intent.sh'
   )
-  await access(repoFile('scripts/benchmark/v21-production-domain-entity-intent-acceptance.mjs'))
+  await access(repoFile('scripts/acceptance/v21-production-domain-entity-intent.mjs'))
   await access(repoFile('scripts/acceptance/v21-production-domain-entity-intent.sh'))
 })
 
@@ -31,7 +31,7 @@ test('production domain/entity-intent wrapper verifies canonical/index/status an
 
 
 test('production domain/entity-intent acceptance embeds git source provenance in the report', async () => {
-  const source = await readFile(repoFile('scripts/benchmark/v21-production-domain-entity-intent-acceptance.mjs'), 'utf8')
+  const source = await readFile(repoFile('scripts/acceptance/v21-production-domain-entity-intent.mjs'), 'utf8')
   assert.match(source, /collectGitSourceProvenance/)
   assert.match(source, /sourceProvenance/)
   assert.match(source, /source:\s*\{\s*git:\s*sourceProvenance\s*\}/s)

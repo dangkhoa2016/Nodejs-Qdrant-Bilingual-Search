@@ -308,9 +308,9 @@ test('review evidence assembly fails closed when the summary references a missin
 
 test('active Qwen v2.1 acceptance scripts default benchmark provenance to transformers', async () => {
   const files = [
-    'scripts/benchmark/v21-production-consistency-acceptance.mjs',
-    'scripts/benchmark/post-promotion-v21-api-acceptance.mjs',
-    'scripts/benchmark/v21-production-domain-entity-intent-acceptance.mjs',
+    'scripts/acceptance/v21-production-consistency.mjs',
+    'scripts/acceptance/post-promotion-v21-api.mjs',
+    'scripts/acceptance/v21-production-domain-entity-intent.mjs',
     'scripts/benchmark/v21-domain-entity-intent.mjs',
     'scripts/benchmark/expanded-noanswer-v21-api.mjs',
     'scripts/benchmark/v21-consistency-verification.mjs'

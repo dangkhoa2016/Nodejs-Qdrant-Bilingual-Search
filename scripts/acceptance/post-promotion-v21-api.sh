@@ -29,7 +29,7 @@ set +e
   npm run seed:status -- --once --expected 20000
   echo
   echo '--- public API semantic acceptance via POST /api/v1/search ---'
-  POST_PROMOTION_OUTPUT="$REPORT" node scripts/benchmark/post-promotion-v21-api-acceptance.mjs
+  POST_PROMOTION_OUTPUT="$REPORT" node scripts/acceptance/post-promotion-v21-api.mjs
 } 2>&1 | tee "$LOG"
 run_status=${PIPESTATUS[0]}
 set -e

@@ -7,50 +7,62 @@
 notebooks/kaggle-cpu-fp16-production-demo.ipynb
 ```
 
-notebook tuân theo quy trình làm việc đầu tiên của kho lưu trữ: nhập nó từ GitHub, sau đó sao chép ô mã đầu tiên hoặc làm mới cứng repository chính thức vào `/kaggle/working`. GitHub vẫn là nguồn gốc của sự thật.
+Notebook dùng workflow repository-first được pin theo release: import notebook từ GitHub, sau đó code cell đầu tiên clone hoặc refresh repository chính thức dưới `/kaggle/working`, force-fetch annotated tag `v1.0.0`, resolve tag đó về commit tương ứng và checkout chính xác commit này ở detached HEAD. GitHub vẫn là source of truth, còn release tag là source identity bất biến dùng cho qualification.
 
 ## Bắt đầu nhanh
 
-1. Tạo Kaggle Notebook mới và sử dụng **Tệp → Nhập Notebook → GitHub**.
+1. Tạo Kaggle Notebook mới và chọn **File → Import Notebook → GitHub**.
 2. Chọn repository `dangkhoa2016/Nodejs-Qdrant-Bilingual-Search` và notebook `notebooks/kaggle-cpu-fp16-production-demo.ipynb`.
 3. Bật **Internet** và đặt **Accelerator=None**.
-4. Đính kèm model `dangkhoa2016/qwen-qwen3-embedding-4b`, biến thể `Transformers/default`.
-5. Đính kèm tập dữ liệu `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
-6. Giữ mặc định an toàn:
+4. Gắn model bằng slug `dangkhoa2016/qwen-qwen3-embedding-4b`, chọn **Framework: `Transformers`** và **Variation: `default`** (`Transformers/default`).
+5. Gắn dataset bằng slug `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
+6. Giữ các mặc định an toàn:
 
-``` con trăn
-RUN_LIVE_DEMO = Đúng
-ENABLE_PUBLIC_TUNNEL = Sai
+   ```python
+   RUN_LIVE_DEMO = True
+   ENABLE_PUBLIC_TUNNEL = False
+   ```
+
+7. Chọn **Restart Session → Run All**.
+
+Kaggle mount model và dataset đã gắn ở chế độ read-only bên dưới `/kaggle/input`. Không sao chép các canonical input này vào `/kaggle/working`; writable runtime state phải nằm dưới `/kaggle/working/qdrant-bilingual-search/`.
+
+## Repository bootstrap sạch và được pin theo release
+
+Checkout tại `/kaggle/working/Nodejs-Qdrant-Bilingual-Search` được xem là source state dùng một lần. Mỗi lần chạy, bootstrap refresh repository, force-fetch `refs/tags/v1.0.0`, xác minh `v1.0.0` là annotated tag, resolve `v1.0.0^{commit}`, checkout chính xác commit đó với detached HEAD, rồi chạy `git clean -ffd`.
+
+Notebook cố ý **không** qualification một `origin/main` đang di chuyển. Cell xác minh source identity kiểm tra:
+
+```text
+HEAD == v1.0.0^{commit}
+Git status == clean
+RELEASE_SOURCE_IDENTITY = PASS
 ```
 
-7. Sử dụng **Khởi động lại phiên → Chạy tất cả**.
+Cách này vừa loại bỏ file/thư mục untracked cũ còn sót lại từ lần chạy Kaggle trước, vừa bảo đảm fresh evidence có thể quy về chính xác frozen release source.
 
-## Làm sạch repository bootstrap
+Persistent/runtime data được giữ bên ngoài source checkout. Canonical Qdrant storage dùng `/kaggle/working/qdrant-bilingual-search/qdrant-data`; temporary snapshot-restore process dùng `/kaggle/working/qdrant-bilingual-search/snapshot-restore-runtime`, bao gồm các thư mục `snapshots/` và `tmp/` riêng. Nhờ vậy Qdrant không thể tạo lại runtime snapshot file bên trong Git checkout trong canonical restore workflow.
 
-checkout tại `/kaggle/working/Nodejs-Qdrant-Bilingual-Search` được coi là trạng thái nguồn dùng một lần. Khi nó đã tồn tại, bootstrap thực hiện tìm nạp, `reset --hard origin/main`, sau đó là `git clean -ffd`. Thao tác này sẽ xóa các tệp hoặc thư mục cũ không bị theo dõi do lần thử Kaggle trước đó để lại, bao gồm cả thư mục `snapshots/` cũ, trước khi notebook kiểm tra xem Git có sạch không.
+### Khôi phục snapshot an toàn khi chạy lại
 
-Dữ liệu liên tục/runtime được cố tình giữ bên ngoài nguồn checkout. Bộ lưu trữ Canonical Qdrant sử dụng `/kaggle/working/qdrant-bilingual-search/qdrant-data`; khôi phục ảnh chụp nhanh tạm thời process sử dụng `/kaggle/working/qdrant-bilingual-search/snapshot-restore-runtime`, bao gồm các thư mục `snapshots/` và `tmp/` rõ ràng. Do đó, Qdrant không thể tạo lại các tệp runtime snapshot bên trong Git checkout trong quy trình khôi phục canonical.
+Canonical restore path an toàn để chạy lại trong cùng Kaggle session. Trước khi chạm vào snapshot, `restore-canonical-qdrant-snapshot.sh` gọi `prepare-canonical-qdrant-restore.sh`, tái sử dụng ownership model của production demo để chỉ dừng các process được chứng minh là thuộc repository này. Việc này dọn stack Node/embedding/Qdrant cũ có thể vẫn giữ port `6333` sau một lần notebook chạy dở hoặc chạy lặp lại.
 
-### Chạy lại khôi phục snapshot an toàn
+Ranh giới an toàn vẫn fail-closed: service bên ngoài hoặc service tái sử dụng không bao giờ bị cleanup này kill. Sau owned-process cleanup, port `6333` phải trống. Nếu một service khác vẫn đang listen, restore sẽ abort thay vì tái sử dụng hoặc terminate service đó.
 
-Đường dẫn khôi phục canonical an toàn để chạy lại trong cùng phiên Kaggle. Trước khi chạm vào snapshot, `restore-canonical-qdrant-snapshot.sh` gọi `prepare-canonical-qdrant-restore.sh`, sử dụng lại quyền sở hữu bản demo sản xuất model để chỉ dừng processes được chứng minh là thuộc sở hữu của repository này. Thao tác này sẽ dọn sạch ngăn xếp Node/embedding/Qdrant trước đó mà vẫn có thể giữ port `6333` sau khi chạy notebook một phần hoặc lặp lại.
-
-Ranh giới an toàn vẫn là fail-closed: services bên ngoài hoặc được tái sử dụng không bao giờ bị tiêu diệt bởi quá trình dọn dẹp này. Sau khi dọn dẹp quy trình sở hữu, port `6333` phải trống. Nếu service khác vẫn đang nghe, hãy hủy bỏ khôi phục thay vì sử dụng lại hoặc chấm dứt service đó.
-
-Các điểm đánh dấu trước khi khôi phục dự kiến ​​là:
+Các marker pre-restore mong đợi:
 
 ```text
 QDRANT_PORT_6333=CLEAN
 QDRANT_PRE_RESTORE_OWNED_CLEANUP=PASS
 ```
 
-## Lõi bắt buộc demo so với demo công khai tùy chọn
+## Core demo bắt buộc và public demo tùy chọn
 
-notebook cố tình tách hai lớp xác thực.
+Notebook cố ý tách hai lớp validation.
 
-### Lõi cục bộ demo - bắt buộc
+### Core local demo — bắt buộc
 
-Phần 1–5 khôi phục và chạy toàn bộ ngăn xếp canonical trên loopback:
+Sections 1–5 restore và chạy canonical stack hoàn toàn trên loopback:
 
 ```text
 Node/Hono API       127.0.0.1:3000
@@ -58,9 +70,9 @@ Embedding service   127.0.0.1:8001
 Qdrant              127.0.0.1:6333
 ```
 
-Kaggle profile buộc Node host chuyển sang `127.0.0.1` một cách rõ ràng. Trình thu thập bằng chứng không đóng được nếu Node, Qdrant hoặc embedding service đang nghe trên giao diện ký tự đại diện.
+Kaggle profile ép Node host thành `127.0.0.1`. Evidence collector fail-closed nếu Node, Qdrant hoặc embedding service listen trên wildcard interface.
 
-Sự chấp nhận ổn định của địa phương có mười ba kiểm tra:
+Stable local acceptance gồm bảy check:
 
 ```text
 /health
@@ -72,21 +84,21 @@ Beijing VI
 Casablanca negative
 ```
 
-Điểm đánh dấu dự kiến:
+Marker mong đợi:
 
 ```text
 PRODUCTION_DEMO_ACCEPTANCE_PASS=13
 ```
 
-### Demo công khai được xác thực - tùy chọn
+### Authenticated public demo — tùy chọn
 
-Phần 6–7 chỉ chạy khi:
+Sections 6–7 chỉ chạy khi:
 
 ```python
 ENABLE_PUBLIC_TUNNEL = True
 ```
 
-Họ **không bắt buộc phải xác thực Kaggle demo lõi**. Khi được bật, cấu trúc liên kết công khai là:
+Chúng **không bắt buộc để xác thực core Kaggle demo**. Khi bật, public topology là:
 
 ```text
 Internet
@@ -97,17 +109,17 @@ Internet
   -> 127.0.0.1:6333 Qdrant
 ```
 
-Sự chấp nhận của công chúng bổ sung thêm một bước kiểm tra `401` chưa được xác thực trước bảy bước kiểm tra cốt lõi tương tự. Do đó, một sự chấp nhận công khai được xác thực hoàn chỉnh có tám bước kiểm tra:
+Public acceptance thêm một unauthenticated `401` check trước bảy core check. Vì vậy authenticated public acceptance hoàn chỉnh có tám check:
 
 ```text
 PRODUCTION_DEMO_ACCEPTANCE_PASS=14
 ```
 
-notebook chỉ báo cáo `AUTHENTICATED_PUBLIC_DEMO=PASS` sau khi Phần 6 và 7 thực sự kết thúc thành công. Nếu chế độ công khai bị tắt hoặc bị bỏ qua, nó sẽ báo cáo `AUTHENTICATED_PUBLIC_DEMO=NOT_RUN` thay vì PASS sai.
+Notebook chỉ báo cáo `AUTHENTICATED_PUBLIC_DEMO=PASS` sau khi Sections 6–7 thực sự hoàn tất thành công. Nếu public mode bị tắt hoặc bị bỏ qua, notebook báo `AUTHENTICATED_PUBLIC_DEMO=NOT_RUN` thay vì PASS giả.
 
-Quick Tunnel là demo endpoint tạm thời, không phải dịch vụ lưu trữ 24/7 được hỗ trợ SLA.
+Quick Tunnel là demo endpoint tạm thời, không phải dịch vụ hosting 24/7 có SLA.
 
-## Hợp đồng runtime và snapshot đông lạnh
+## Frozen runtime và snapshot contract
 
 ```text
 model                  = Qwen/Qwen3-Embedding-4B
@@ -128,7 +140,7 @@ indexed vectors        = 20000
 distance               = Cosine
 ```
 
-Snapshot chuẩn:
+Canonical snapshot:
 
 ```text
 knowledge_entities_qwen3_4b_text_v21-20260827T013824Z.snapshot
@@ -136,37 +148,37 @@ bytes  = 283812352
 sha256 = 71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f
 ```
 
-notebook xác minh danh tính snapshot và khôi phục nó mà không cần gieo hạt lại.
+Notebook xác minh snapshot identity và restore snapshot mà không reseed.
 
-## Vệ sinh bằng chứng và xuất bản
+## Evidence và publication hygiene
 
-Mục 8 kêu gọi:
+Section 8 gọi:
 
 ```text
 scripts/kaggle/collect-production-demo-notebook-evidence.sh
 ```
 
-Nó tạo ra:
+Nó tạo:
 
 ```text
 nodejs-qdrant-v1.0.0-production-demo-evidence-<UTC>.zip
 nodejs-qdrant-v1.0.0-production-demo-evidence-<UTC>.zip.sha256
 ```
 
-Các biện pháp bảo vệ xuất bản bao gồm:
+Các publication safeguard gồm:
 
-- Cây làm việc Git phải sạch sẽ; `.runtime/` bị bỏ qua ở trạng thái phù du.
-- Qdrant tạm thời khôi phục snapshots và các tệp tạm thời nằm ngoài nguồn checkout.
-- Bằng chứng Process bỏ qua các đối số dòng lệnh đầy đủ để thông tin xác thực phiên Kaggle/Jupyter không thể bị rò rỉ qua đầu ra `ps`.
-- Kiểm tra trình nghe Qdrant, embedding và Node không thành công khi hiển thị ký tự đại diện.
-- Các giá trị mã thông báo mang và các tệp có tên mã thông báo bị từ chối khỏi bằng chứng.
-- `SHA256SUMS` nội bộ sử dụng các đường dẫn tương đối, loại trừ chính nó và được xác minh lại sau khi trích xuất ZIP độc lập.
-- `.zip.sha256` bên ngoài chỉ chứa tên cơ sở ZIP và có thể di chuyển được với `sha256sum -c` sau khi tải xuống.
-- Các điểm đánh dấu PASS công khai yêu cầu nhật ký chấp nhận công khai thực sự với `401` và `PRODUCTION_DEMO_ACCEPTANCE_PASS=14` chưa được xác thực.
-- `system/environment.txt` phân biệt `SYSTEM_NODE_VERSION` (shell PATH được bộ sưu tập sử dụng) với `DEMO_NODE_VERSION` (Node API đang chạy thực tế runtime được báo cáo bởi `/api/v1/info`).
-- notebook theo dõi `evidence_completed=False` cho đến khi Phần 8 tạo thành công ZIP và sidecar dự kiến. Phần 9 phát ra `EVIDENCE_COLLECTION=FAIL` và `PRODUCTION_ORIENTED_DEMO_NOTEBOOK=INCOMPLETE` thay vì PASS tổng thể nếu việc đóng gói bằng chứng không hoàn thành.
+- Git worktree phải clean; `.runtime/` được ignore như ephemeral state.
+- Temporary Qdrant restore snapshot và temp file luôn nằm ngoài source checkout.
+- Process evidence bỏ full command-line arguments để Kaggle/Jupyter session credential không thể rò qua output `ps`.
+- Listener check của Qdrant, embedding và Node fail khi phát hiện wildcard exposure.
+- Bearer-token value và token-named file bị loại khỏi evidence.
+- `SHA256SUMS` nội bộ dùng relative path, loại chính nó và được verify lại sau independent ZIP extraction.
+- `.zip.sha256` bên ngoài chỉ chứa basename của ZIP và dùng được với `sha256sum -c` sau download.
+- Public PASS marker yêu cầu public acceptance log thật có unauthenticated `401` và `PRODUCTION_DEMO_ACCEPTANCE_PASS=14`.
+- `system/environment.txt` phân biệt `SYSTEM_NODE_VERSION` với `DEMO_NODE_VERSION` của Node API runtime thực tế.
+- Notebook giữ `evidence_completed=False` cho đến khi Section 8 tạo thành công ZIP và sidecar mong đợi. Section 9 phát `EVIDENCE_COLLECTION=FAIL` và `PRODUCTION_ORIENTED_DEMO_NOTEBOOK=INCOMPLETE` nếu evidence packaging chưa hoàn tất.
 
-Các điểm đánh dấu cuối cùng thành công dự kiến ​​chỉ dành cho địa phương bao gồm:
+Các final marker thành công mong đợi cho local-only run:
 
 ```text
 CORE_LOCAL_DEMO=PASS
@@ -175,6 +187,8 @@ AUTHENTICATED_PUBLIC_DEMO=NOT_RUN
 PRODUCTION_ORIENTED_DEMO_NOTEBOOK=PASS
 ```
 
-## Trạng thái xác thực
+## Trạng thái validation
 
-GitHub CI xác thực cấu trúc notebook, đánh dấu hướng dẫn song ngữ, hành vi khởi động sạch, dọn dẹp Qdrant sở hữu an toàn với hành vi fail-closed dịch vụ bên ngoài, vệ sinh đường dẫn chụp nhanh Qdrant runtime, tính trung thực trạng thái bằng chứng cuối cùng, hợp đồng cấu trúc liên kết localhost/công khai, vệ sinh xuất bản, cú pháp trợ giúp, kiểm tra Node, Python Kiểm tra embedding và tích hợp Qdrant. Kaggle mới **Phiên khởi động lại → Chạy tất cả** trên HEAD `main` cuối cùng vẫn là gate trực tiếp có thẩm quyền trước khi nhắm mục tiêu lại `v1.0.0` hoặc ghi đè nội dung/ghi chú release công khai.
+GitHub CI xác thực notebook structure, bilingual guidance marker, exact annotated-tag bootstrap behavior, rerun-safe owned-Qdrant cleanup với external-service fail-closed behavior, Qdrant runtime snapshot-path hygiene, tính trung thực của final evidence state, localhost/public topology contract, publication hygiene, helper syntax, Node tests, Python embedding tests và Qdrant integration.
+
+Sau khi final publication history và annotated tag `v1.0.0` được freeze, một fresh Kaggle **Restart Session → Run All** trên chính xác tag target đó là live qualification gate có thẩm quyền. Chỉ evidence được tạo từ final tag-pinned session này mới được dùng để overwrite controlled public release evidence assets và các digest tương ứng.

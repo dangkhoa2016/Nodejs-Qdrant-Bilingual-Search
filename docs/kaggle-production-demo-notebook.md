@@ -7,15 +7,15 @@ The canonical interactive Kaggle entry point is:
 notebooks/kaggle-cpu-fp16-production-demo.ipynb
 ```
 
-The notebook follows a repository-first workflow: import it from GitHub, then the first code cell clones or hard-refreshes the official repository into `/kaggle/working`. GitHub remains the source of truth.
+The notebook follows a release-pinned repository-first workflow: import it from GitHub, then the first code cell clones or refreshes the official repository under `/kaggle/working`, force-fetches the annotated `v1.0.0` tag, resolves that tag to its commit, and checks out that exact commit in detached HEAD state. GitHub remains the source of truth, while the release tag is the frozen source identity used for qualification.
 
 ## Quick start
 
 1. Create a new Kaggle Notebook and use **File → Import Notebook → GitHub**.
 2. Select repository `dangkhoa2016/Nodejs-Qdrant-Bilingual-Search` and notebook `notebooks/kaggle-cpu-fp16-production-demo.ipynb`.
 3. Enable **Internet** and set **Accelerator=None**.
-4. Attach model `dangkhoa2016/qwen-qwen3-embedding-4b`, variation `Transformers/default`.
-5. Attach dataset `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
+4. Attach model slug `dangkhoa2016/qwen-qwen3-embedding-4b`, choose **Framework: `Transformers`** and **Variation: `default`** (`Transformers/default`).
+5. Attach dataset slug `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
 6. Keep the safe defaults:
 
    ```python
@@ -25,9 +25,21 @@ The notebook follows a repository-first workflow: import it from GitHub, then th
 
 7. Use **Restart Session → Run All**.
 
-## Clean repository bootstrap
+Kaggle mounts the attached model and dataset read-only beneath `/kaggle/input`. Do not copy those canonical inputs into `/kaggle/working`; writable runtime state belongs under `/kaggle/working/qdrant-bilingual-search/`.
 
-The checkout at `/kaggle/working/Nodejs-Qdrant-Bilingual-Search` is treated as disposable source state. When it already exists, the bootstrap performs a fetch, `reset --hard origin/main`, then `git clean -ffd`. This removes stale untracked files or directories left by an earlier Kaggle attempt, including an old `snapshots/` directory, before the notebook checks that Git is clean.
+## Clean, release-pinned repository bootstrap
+
+The checkout at `/kaggle/working/Nodejs-Qdrant-Bilingual-Search` is disposable source state. On every run, the bootstrap refreshes the repository, force-fetches `refs/tags/v1.0.0`, verifies that `v1.0.0` is an annotated tag, resolves `v1.0.0^{commit}`, checks out that exact commit with detached HEAD, then runs `git clean -ffd`.
+
+The notebook deliberately does **not** qualify a moving `origin/main`. Its source-identity verification cell confirms that:
+
+```text
+HEAD == v1.0.0^{commit}
+Git status == clean
+RELEASE_SOURCE_IDENTITY = PASS
+```
+
+This removes stale untracked files or directories left by earlier Kaggle attempts while making the fresh evidence attributable to the exact frozen release source.
 
 Persistent/runtime data is deliberately kept outside the source checkout. Canonical Qdrant storage uses `/kaggle/working/qdrant-bilingual-search/qdrant-data`; the temporary snapshot-restore process uses `/kaggle/working/qdrant-bilingual-search/snapshot-restore-runtime`, including explicit `snapshots/` and `tmp/` directories. Qdrant therefore cannot recreate runtime snapshot files inside the Git checkout during the canonical restore workflow.
 
@@ -177,4 +189,6 @@ PRODUCTION_ORIENTED_DEMO_NOTEBOOK=PASS
 
 ## Validation state
 
-GitHub CI validates notebook structure, bilingual guidance markers, clean-bootstrap behavior, rerun-safe owned-Qdrant cleanup with external-service fail-closed behavior, Qdrant runtime snapshot-path hygiene, final evidence-state truthfulness, localhost/public topology contracts, publication hygiene, helper syntax, Node tests, Python embedding tests and Qdrant integration. A fresh Kaggle **Restart Session → Run All** on the final `main` HEAD remains the authoritative live gate before retargeting `v1.0.0` or overwriting public release assets/notes.
+GitHub CI validates notebook structure, bilingual guidance markers, exact annotated-tag bootstrap behavior, rerun-safe owned-Qdrant cleanup with external-service fail-closed behavior, Qdrant runtime snapshot-path hygiene, final evidence-state truthfulness, localhost/public topology contracts, publication hygiene, helper syntax, Node tests, Python embedding tests and Qdrant integration.
+
+After the final publication history and annotated `v1.0.0` tag are frozen, a fresh Kaggle **Restart Session → Run All** on that exact tag target is the authoritative live qualification gate. Only evidence produced by that final tag-pinned session should be used to overwrite the controlled public release evidence assets and their digests.

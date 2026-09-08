@@ -28,7 +28,7 @@ The accepted `v1.0.0` runtime is designed for a portable Kaggle CPU environment:
 | Transport | `binary-f32` |
 | Canonical semantic verifier | 20,000 / 20,000 PASS |
 | Stable smoke sentinels | Thailand EN, Tokyo VI, Beijing VI, Casablanca negative = PASS |
-| Node test suite | 447 / 447 PASS |
+| Node test suite | 454 / 454 PASS |
 | CI | Node 22 + Node 24 + Python engine + Qdrant integration |
 
 This repository is a **validated portable semantic-search demo/runtime profile**. It is not presented as a low-latency GPU serving stack.
@@ -85,7 +85,25 @@ npm ci
 
 ### Canonical Kaggle CPU-FP16 profile
 
-Attach the Qwen3-Embedding-4B model under Kaggle Input and point the demo at persistent Qdrant storage containing the verified 20K collection:
+For canonical reproduction, import and run the committed notebook instead of manually assembling Kaggle inputs:
+
+1. Create a new Kaggle Notebook and use **File → Import Notebook → GitHub**.
+2. Select repository `dangkhoa2016/Nodejs-Qdrant-Bilingual-Search` and notebook `notebooks/kaggle-cpu-fp16-production-demo.ipynb`.
+3. Enable **Internet** and set **Accelerator=None**.
+4. Attach the Kaggle model by slug `dangkhoa2016/qwen-qwen3-embedding-4b`; choose **Framework: `Transformers`** and **Variation: `default`** (`Transformers/default`).
+5. Attach the canonical snapshot dataset by slug `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
+6. Keep the safe notebook defaults:
+
+   ```python
+   RUN_LIVE_DEMO = True
+   ENABLE_PUBLIC_TUNNEL = False
+   ```
+
+7. Use **Restart Session → Run All**.
+
+Kaggle mounts both attachments read-only under `/kaggle/input`. Do **not** copy model weights or the canonical snapshot dataset into `/kaggle/working`; the notebook and resolver scripts discover the versioned input paths and restore writable Qdrant runtime state under `/kaggle/working/qdrant-bilingual-search/`.
+
+If you operate the wrapper manually from a checked-out repository, the canonical writable Qdrant path is:
 
 ```bash
 export QDRANT_STORAGE_PATH=/kaggle/working/qdrant-bilingual-search/qdrant-data
@@ -108,7 +126,7 @@ For local-only operation without a public Cloudflare Quick Tunnel:
 DEMO_PUBLIC=0 bash scripts/kaggle/run-qwen3-transformers-fp16-cpu.sh
 ```
 
-See [docs/production-demo.md](docs/production-demo.md) and [docs/qwen3-embedding-kaggle-transformers-fp16.md](docs/qwen3-embedding-kaggle-transformers-fp16.md) for the full operator contract.
+See [docs/kaggle-production-demo-notebook.md](docs/kaggle-production-demo-notebook.md), [docs/production-demo.md](docs/production-demo.md), and [docs/qwen3-embedding-kaggle-transformers-fp16.md](docs/qwen3-embedding-kaggle-transformers-fp16.md) for the full operator contract.
 
 ## API example
 
@@ -343,6 +361,7 @@ tests/              unit, HTTP, architecture and integration tests
 ## Documentation
 
 - [Release notes v1.0.0](docs/releases/v1.0.0.md)
+- [Kaggle production-demo notebook](docs/kaggle-production-demo-notebook.md)
 - [Production demo](docs/production-demo.md)
 - [Kaggle CPU Transformers FP16 profile](docs/qwen3-embedding-kaggle-transformers-fp16.md)
 - [Architecture](docs/architecture.md)
@@ -365,6 +384,14 @@ tests/              unit, HTTP, architecture and integration tests
 - No RAG layer.
 - No automatic runtime reseeding.
 - Relation-style diagnostics can expose model/snapshot ranking limitations even when canonical semantic verification passes.
+
+## Community and governance
+
+- [Contributing](.github/CONTRIBUTING.md) / [Đóng góp](.github/CONTRIBUTING.vi.md)
+- [Security policy](.github/SECURITY.md)
+- [Support](.github/SUPPORT.md) / [Hỗ trợ](.github/SUPPORT.vi.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Issue templates](.github/ISSUE_TEMPLATE) and [pull-request checklist](.github/PULL_REQUEST_TEMPLATE.md)
 
 ## Security and provenance
 
