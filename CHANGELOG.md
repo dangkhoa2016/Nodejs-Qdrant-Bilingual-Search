@@ -6,53 +6,98 @@
 ### Added
 - bilingual EN/VI semantic search API with Node.js/Hono and Qdrant
 - Qwen3-Embedding-4B canonical 2560d embedding profile
-- deterministic dataset/seed/evaluation/reproducibility tooling
+- deterministic dataset, seeding, evaluation and reproducibility tooling
 - Kaggle Transformers CPU-FP16 release profile
 - semantic index verification and acceptance tooling
 - repository-integrated Kaggle production-demo notebook entry point
 - fail-closed canonical Qdrant snapshot restore helper
-- stable-sentinel notebook acceptance and sanitized evidence packaging
-- authenticated public-demo gateway with per-session Bearer token
-- Quick Tunnel public path restricted to the gateway at `127.0.0.1:8090`
-- bilingual English/Vietnamese explanatory Markdown cells throughout the Kaggle notebook
+- sanitized evidence packaging with SHA-256 verification
+- optional authenticated public-demo gateway and Quick Tunnel path
+- bilingual English/Vietnamese documentation and notebook guidance
 
-### Validated
-- 20K/20K semantic verifier
-- stable/canonical compatibility sentinel set at rank #1 (Thailand EN, Tokyo VI, Beijing VI)
-- strict relation-style diagnostics scoped as diagnostic-only (Thai VI capital-form; Fuji/Japan)
-- CPU FP16 memory acceptance with no OOM/oom_kill
-- portable Node 22/24 fresh bootstrap with SHA-256 verification
-- reproducible npm-ci CI and evidence packaging and archive integrity
-- notebook JSON/source contract and Kaggle helper syntax in CI
-- authenticated-gateway unit tests on Node 22 and Node 24
-- public-topology CI contract requiring the tunnel origin to be `127.0.0.1:8090`
-- fresh Kaggle Qdrant storage paths are canonicalized before creation and regression-tested on Node 22/24
-- local semantic acceptance contains 7 checks; authenticated public acceptance contains 8 checks including the unauthenticated `401` gate
-- Kaggle repository hard-refresh removes stale untracked checkout state such as `snapshots/` after `reset --hard`, regression-tested on Node 22/24
-- temporary Qdrant snapshot/temp runtime paths are externalized from the source checkout and regression-tested on Node 22/24
-- snapshot restore is rerun-safe for project-owned Qdrant processes while preserving fail-closed behavior for external listeners on port `6333`
-- notebook overall PASS is gated by successful evidence collection and fails closed to `INCOMPLETE` otherwise
-- evidence distinguishes the collector shell Node version from the actual running demo Node runtime
+### Final validated `v1.0.0` publication state
+
+The final frozen publication identity is:
+
+```text
+annotated tag object = ce9cbf6d814a2cf0f4a16251dca55aa1ad918bc5
+release commit       = 93d9117e4777ab2570522d25d79ba69709f43fbd
+release tree         = 4cfb514413b02fea9ad1cec052abfb71038c6a13
+exact-main CI        = #154 / run 34302179233 / PASS
+exact-tag CI         = #155 / run 34303663281 / PASS
+```
+
+Final fresh post-LICENSE Kaggle qualification:
+
+```text
+evidence timestamp          = 20260909T024546Z
+Qdrant                      = 20000 / 20000
+snapshot restore            = PASS
+RESEED_PERFORMED            = NO
+Search Showcase             = PASS
+stable local acceptance     = 13 / 13 PASS
+semantic sentinels          = 10 / 10 PASS
+authenticated public demo   = NOT_RUN
+```
+
+`AUTHENTICATED_PUBLIC_DEMO=NOT_RUN` is acceptable for the core release because `ENABLE_PUBLIC_TUNNEL=False` is the safe default. The optional public topology remains covered by CI contracts.
+
+### Historical qualification context
+
+Earlier reconstructed-source qualification used smaller compatibility acceptance sets, including a historical 7-check local set and an optional authenticated-public extension. Those counts remain valid only as historical evidence for the source states in which they were collected.
+
+They are **not** the final `v1.0.0` publication contract. The authoritative final local qualification is the post-LICENSE **13/13** result above.
+
+Historical clean Kaggle evidence from 2026-08-31 remains preserved for reconstructed source commit `b316619ad94947571e91124adfe96071bbd1f255`; it is not relabeled as evidence for the later frozen release tip.
+
+### Canonical runtime and semantic profile
+- Qwen3-Embedding-4B, 2560 dimensions, cosine distance
+- Transformers / PyTorch / CPU / FP16 internal runtime
+- normalized public `Float32[2560]` vectors over `binary-f32`
+- query profile `qwen3`
+- query instruction ID `geo-retrieval-v1:d014d3ec6df87e49`
+- embedding text contract `v2.1`
+- canonical collection `knowledge_entities_qwen3_4b_text_v21`
+- canonical snapshot SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
+
+### Stable compatibility and diagnostics
+- stable search showcase: Thailand EN, Tokyo VI, Beijing VI = PASS
+- final semantic sentinels: 10/10 PASS
+- relation-style Thailand-capital and Fuji/Japan cases remain diagnostic-only known limitations
+- historical full-20K v2.1 evaluation: approximately R@1 96.25%, R@3 100%, R@5 100%
 
 ### Security and operations
-- the canonical Kaggle CPU-FP16 profile explicitly binds the Node API to `127.0.0.1`; Qdrant, embedding service and Node backend must all remain loopback-only
-- public API routes require `Authorization: Bearer <token>` when exposed through the optional notebook public path
-- search inference concurrency is limited to one public request while health/readiness remain responsive
-- gateway enforces a safe-route allowlist, rate limiting, request-body limits, request IDs and an upstream timeout
-- public Sections 6–7 are optional and disabled by default with `ENABLE_PUBLIC_TUNNEL=False`
-- notebook public PASS markers are emitted only after authenticated public acceptance actually completes
-- evidence collection fails on a dirty Git worktree, omits full process command lines, rejects Bearer-token leakage, and verifies backend listener topology
-- outer evidence `.zip.sha256` sidecars use portable ZIP basenames; internal `SHA256SUMS` remains relative and independently re-extract-verified
-- the source checkout is disposable and cleaned with `git clean -ffd`; persistent Qdrant runtime storage remains outside the repository under `/kaggle/working/qdrant-bilingual-search`
-- the restore helper explicitly places Qdrant snapshots and temp files under `/kaggle/working/qdrant-bilingual-search/snapshot-restore-runtime`
-- before canonical snapshot restore, project-owned demo processes are stopped using the existing PID/signature ownership model; an external/reused service still occupying `6333` is never killed and blocks restore
-- final notebook status records `EVIDENCE_COLLECTION=PASS/FAIL` and never overclaims overall PASS without completed evidence packaging
+- canonical Node API, embedding service and Qdrant remain loopback-only unless deliberately exposed through the optional gateway
+- public routes require Bearer authentication when the optional public path is enabled
+- search inference concurrency is bounded while health/readiness remain responsive
+- evidence collection fails closed on dirty source state and rejects secret leakage
+- `/kaggle/input` remains read-only; writable Qdrant runtime state lives under `/kaggle/working/qdrant-bilingual-search`
+- canonical snapshot restore never silently reseeds the final collection
 
-### Notes
-- public vectors remain normalized Float32[2560]
-- canonical snapshot reuse is approved; no reseed is required
-- canonical snapshot restore is pinned to Qdrant 1.18.3 and SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
-- a clean Kaggle **Restart Session → Run All** completed on reconstructed source commit `b316619ad94947571e91124adfe96071bbd1f255`; independently reviewed evidence SHA-256 is `3ab21f5d05dc8188d543167dce806b28144f2d2e6cc780e4eab0bdb895f7037a`
-- final local Kaggle qualification contract is 13/13; the optional authenticated public path was not run and is recorded as `NOT_RUN`
-- repository-history reconstruction and `v1.0.0` tag-retarget provenance are disclosed in the release documentation; the post-evidence closeout delta is limited to release documentation and GitHub Actions version pins, with no application, runtime, test, or notebook-content changes
-- core local Kaggle validation does not require the optional authenticated public tunnel; any public-demo release claim does require Sections 6–7 and `PRODUCTION_DEMO_ACCEPTANCE_PASS=14`
+### Final controlled publication assets
+
+Exactly six custom assets are frozen on the GitHub Release:
+
+```text
+nodejs-qdrant-bilingual-search-v1.0.0-kaggle-cpu-fp16-production-demo.ipynb
+  3f9b61694c3d2b2a9e73afa401dfc3f4ecf40d69bc11d551609499570a4df823
+
+nodejs-qdrant-bilingual-search-v1.0.0-kaggle-cpu-fp16-production-demo.ipynb.sha256
+  3fa610c0d759559a17c105c990586dd24e68e0addc857a1be8079a69ac127c33
+
+nodejs-qdrant-v1.0.0-production-demo-evidence-20260909T024546Z.zip
+  110ab61b97927ae74949badcd0d9dfc382608978b1ffbaa8795d3a2529a7255c
+
+nodejs-qdrant-v1.0.0-production-demo-evidence-20260909T024546Z.zip.sha256
+  990bde3daafe9a792023ab7c87bdefa8baa2409d442a26f026d6b8d0b28b07b9
+
+nodejs-qdrant-v1.0.0-release-manifest.json
+  2bdc13febab013937b657947ada11cc29e346b222890743d9ad5a23efb56dd76
+
+nodejs-qdrant-v1.0.0-release-manifest.json.sha256
+  bd7e32d44d0b29b797422f85ee87587de0b125b6b17426b736db6f8e504228a9
+```
+
+### Post-publication documentation note
+
+After the public release was frozen, the moving `main` branch documentation was corrected to match the final public provenance and asset set. This documentation-only follow-up does not retarget `v1.0.0`, replace release assets, or reopen release qualification.

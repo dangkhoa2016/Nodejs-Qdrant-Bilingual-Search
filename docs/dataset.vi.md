@@ -1,7 +1,7 @@
 # Pipeline dữ liệu công khai
 > 🌐 Language / Ngôn ngữ: [English](dataset.md) | **Tiếng Việt**
 
-Bản dựng công khai sử dụng **GeoNames `cities15000` làm xương sống địa lý canonical** và **Who's On First (WOF) làm nội dung đa ngôn ngữ tùy chọn**. Wikidata không nằm trong đường dẫn nhập công khai.
+Pipeline nhập dữ liệu công khai sử dụng **GeoNames làm nguồn địa lý canonical**: `cities15000` cung cấp xương sống dữ liệu thành phố, được bổ sung bởi các bộ dữ liệu quốc gia, đơn vị hành chính và tên thay thế của GeoNames. **Who's On First (WOF) chỉ đóng vai trò enrichment đa ngôn ngữ và định danh theo cơ chế best-effort**, không bao giờ thay thế GeoNames làm nguồn địa lý canonical. Wikidata không được hỗ trợ trong public ingestion path.
 
 ## Xương sống GeoNames
 

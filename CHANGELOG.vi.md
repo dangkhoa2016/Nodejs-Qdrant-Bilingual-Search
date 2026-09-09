@@ -4,55 +4,100 @@
 ## [1.0.0] - 2026-08-29
 
 ### Đã thêm
-- tìm kiếm ngữ nghĩa EN/VI song ngữ API với Node.js/Hono và Qdrant
-- Profile embedding Qwen3-Embedding-4B 2560 chiều chuẩn
-- tập dữ liệu xác định/seed/công cụ đánh giá/khả năng tái tạo
-- Profile phát hành Kaggle Transformers CPU-FP16
-- Công cụ xác minh và chấp nhận chỉ số ngữ nghĩa
-- Điểm khởi chạy production demo Kaggle tích hợp kho lưu trữ notebook
-- Trình trợ giúp khôi phục fail-closed canonical Qdrant snapshot
-- đóng gói bằng chứng đã được làm sạch và chấp nhận notebook ổn định
-- Cổng thử nghiệm công khai được xác thực với Bearer token mỗi phiên
-- Đường dẫn công cộng Quick Tunnel bị giới hạn ở cổng tại `127.0.0.1:8090`
-- Các ô Markdown giải thích song ngữ Anh/Việt trong toàn bộ Kaggle notebook
+- API tìm kiếm ngữ nghĩa song ngữ EN/VI với Node.js/Hono và Qdrant
+- profile embedding canonical Qwen3-Embedding-4B 2560 chiều
+- công cụ dataset, seeding, evaluation và reproducibility xác định
+- profile release Kaggle Transformers CPU-FP16
+- công cụ semantic index verification và acceptance
+- Kaggle production-demo notebook được tích hợp trong repository
+- helper khôi phục canonical Qdrant snapshot theo fail-closed
+- đóng gói evidence đã làm sạch kèm xác minh SHA-256
+- optional authenticated public-demo gateway và Quick Tunnel path
+- tài liệu và hướng dẫn notebook song ngữ Anh/Việt
 
-### Đã xác thực
-- Trình xác minh ngữ nghĩa 20K/20K
-- khả năng tương thích ổn định/canonical sentinel được đặt ở vị trí số 1 (Thái Lan EN, Tokyo VI, Bắc Kinh VI)
-- chẩn đoán kiểu quan hệ nghiêm ngặt nằm trong phạm vi chỉ chẩn đoán (dạng viết hoa tiếng Thái VI; Fuji/Nhật Bản)
-- Chấp nhận bộ nhớ CPU FP16 không có OOM/oom_kill
-- Node di động 22/24 bootstrap mới có xác minh SHA-256
-- có thể tái tạo npm-ci CI và tính toàn vẹn của việc đóng gói và lưu trữ bằng chứng
-- notebook JSON/hợp đồng nguồn và cú pháp trợ giúp Kaggle trong CI
-- kiểm tra đơn vị cổng xác thực trên Node 22 và Node 24
-- Hợp đồng CI cấu trúc liên kết công cộng yêu cầu nguồn gốc đường hầm là `127.0.0.1:8090`
-- Các đường dẫn lưu trữ Kaggle Qdrant mới được chuẩn hóa trước khi tạo và kiểm tra hồi quy trên Node 22/24
-- chấp nhận ngữ nghĩa cục bộ chứa 7 kiểm tra; Sự chấp nhận công khai đã được xác thực bao gồm 8 bước kiểm tra bao gồm `401` gate chưa được xác thực
-- Làm mới cứng Kaggle repository loại bỏ trạng thái checkout cũ không bị theo dõi chẳng hạn như `snapshots/` sau `reset --hard`, đã được kiểm tra hồi quy trên Node 22/24
-- Các đường dẫn Qdrant snapshot/temp runtime tạm thời được đưa ra bên ngoài từ nguồn checkout và được kiểm tra hồi quy trên Node 22/24
-- Khôi phục snapshot được chạy lại an toàn cho Qdrant processes thuộc sở hữu của dự án trong khi vẫn duy trì hành vi fail-closed cho trình nghe bên ngoài trên port `6333`
-- PASS tổng thể của notebook được kiểm soát bởi bằng chứng thành công collection và không thể đóng thành `INCOMPLETE` nếu không
-- bằng chứng phân biệt phiên bản Node shell Collector với demo Node runtime đang chạy thực tế
+### Trạng thái publication `v1.0.0` cuối cùng đã xác thực
 
-### Bảo mật và vận hành
-- canonical Kaggle CPU-FP16 profile liên kết rõ ràng Node API với `127.0.0.1`; Qdrant, embedding service và Node backend đều phải duy trì ở chế độ vòng lặp ngược
-- các tuyến API công khai yêu cầu `Authorization: Bearer <token>` khi được hiển thị thông qua đường dẫn công cộng notebook tùy chọn
-- tìm kiếm đồng thời inference được giới hạn ở một request công khai trong khi health/readiness vẫn phản hồi
-- cổng thực thi danh sách cho phép tuyến đường an toàn, giới hạn tốc độ, giới hạn nội dung yêu cầu, ID request và timeout ngược dòng
-- public Phần 6–7 là tùy chọn và bị tắt theo mặc định với `ENABLE_PUBLIC_TUNNEL=False`
-- Điểm đánh dấu PASS công khai notebook chỉ được phát ra sau khi quá trình chấp nhận công khai được xác thực thực sự hoàn tất
-- bằng chứng collection bị lỗi trên cây công việc Git bẩn, bỏ qua các dòng lệnh process đầy đủ, từ chối rò rỉ mã thông báo Bearer và xác minh cấu trúc liên kết trình nghe backend
-- bằng chứng bên ngoài `.zip.sha256` sidecar sử dụng tên cơ sở ZIP di động; `SHA256SUMS` nội bộ vẫn tương đối và được xác minh lại trích xuất độc lập
-- nguồn checkout là nguồn dùng một lần và được làm sạch bằng `git clean -ffd`; bộ lưu trữ Qdrant runtime liên tục vẫn nằm ngoài repository theo `/kaggle/working/qdrant-bilingual-search`
-- trình trợ giúp khôi phục đặt rõ ràng Qdrant snapshots và các tệp tạm thời trong `/kaggle/working/qdrant-bilingual-search/snapshot-restore-runtime`
-- trước khi khôi phục canonical snapshot, demo processes thuộc sở hữu của dự án sẽ ngừng sử dụng quyền sở hữu PID/chữ ký model hiện có; service bên ngoài/tái sử dụng vẫn chiếm `6333` không bao giờ bị tắt và chặn khôi phục
-- trạng thái notebook cuối cùng ghi lại `EVIDENCE_COLLECTION=PASS/FAIL` và không bao giờ thừa nhận PASS tổng thể mà không đóng gói bằng chứng hoàn chỉnh
+Danh tính publication đã freeze:
 
-### Ghi chú
-- vectors công khai vẫn được chuẩn hóa Float32[2560]
-- Việc tái sử dụng canonical snapshot đã được phê duyệt; không cần reseed
-- Khôi phục canonical snapshot được ghim vào Qdrant 1.18.3 và SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
-- một lần Kaggle **Khởi động lại phiên → Chạy tất cả** sạch đã hoàn tất trên source commit tái cấu trúc `b316619ad94947571e91124adfe96071bbd1f255`; SHA-256 của bằng chứng được xem xét độc lập là `3ab21f5d05dc8188d543167dce806b28144f2d2e6cc780e4eab0bdb895f7037a`
-- contract qualification Kaggle local cuối cùng là 13/13; đường dẫn công khai có xác thực tùy chọn không được chạy và được ghi là `NOT_RUN`
-- nguồn gốc tái cấu trúc lịch sử repository và retarget tag `v1.0.0` được công bố trong tài liệu release; delta closeout sau bằng chứng chỉ giới hạn ở tài liệu release và các version pin của GitHub Actions, không thay đổi ứng dụng, runtime, test hoặc nội dung notebook
-- xác thực Kaggle cốt lõi cục bộ không yêu cầu đường hầm công cộng được xác thực tùy chọn; mọi xác nhận quyền sở hữu release demo công khai đều yêu cầu Phần 6–7 và `PRODUCTION_DEMO_ACCEPTANCE_PASS=14`
+```text
+annotated tag object = ce9cbf6d814a2cf0f4a16251dca55aa1ad918bc5
+release commit       = 93d9117e4777ab2570522d25d79ba69709f43fbd
+release tree         = 4cfb514413b02fea9ad1cec052abfb71038c6a13
+exact-main CI        = #154 / run 34302179233 / PASS
+exact-tag CI         = #155 / run 34303663281 / PASS
+```
+
+Final fresh post-LICENSE Kaggle qualification:
+
+```text
+evidence timestamp          = 20260909T024546Z
+Qdrant                      = 20000 / 20000
+snapshot restore            = PASS
+RESEED_PERFORMED            = NO
+Search Showcase             = PASS
+stable local acceptance     = 13 / 13 PASS
+semantic sentinels          = 10 / 10 PASS
+authenticated public demo   = NOT_RUN
+```
+
+`AUTHENTICATED_PUBLIC_DEMO=NOT_RUN` là kết quả chấp nhận được cho core release vì `ENABLE_PUBLIC_TUNNEL=False` là mặc định an toàn. Optional public topology vẫn được CI kiểm tra theo contract riêng.
+
+### Bối cảnh historical qualification
+
+Các lần qualification trên reconstructed source trước đó dùng những compatibility acceptance set nhỏ hơn, gồm historical local set 7 checks và optional authenticated-public extension. Những con số này chỉ còn ý nghĩa historical cho source state nơi chúng được thu thập.
+
+Chúng **không** phải final `v1.0.0` publication contract. Final local qualification authoritative là post-LICENSE **13/13** ở trên.
+
+Historical clean Kaggle evidence ngày 2026-08-31 vẫn được giữ cho reconstructed source commit `b316619ad94947571e91124adfe96071bbd1f255`; bằng chứng đó không được đổi nhãn thành evidence cho frozen release tip về sau.
+
+### Canonical runtime và semantic profile
+- Qwen3-Embedding-4B, 2560 chiều, cosine distance
+- internal runtime Transformers / PyTorch / CPU / FP16
+- public vector `Float32[2560]` đã chuẩn hóa qua `binary-f32`
+- query profile `qwen3`
+- query instruction ID `geo-retrieval-v1:d014d3ec6df87e49`
+- embedding text contract `v2.1`
+- canonical collection `knowledge_entities_qwen3_4b_text_v21`
+- canonical snapshot SHA-256 `71f12fe14ef51966069347290ad15302d389e488d7904dab6cf0cf190f43064f`
+
+### Stable compatibility và diagnostics
+- stable search showcase: Thailand EN, Tokyo VI, Beijing VI = PASS
+- final semantic sentinels: 10/10 PASS
+- relation-style cases về Thailand capital và Fuji/Japan vẫn chỉ là diagnostic known limitations
+- historical full-20K v2.1 evaluation: xấp xỉ R@1 96.25%, R@3 100%, R@5 100%
+
+### Security và vận hành
+- canonical Node API, embedding service và Qdrant giữ loopback-only trừ khi chủ động expose qua optional gateway
+- public routes yêu cầu Bearer authentication khi optional public path được bật
+- search inference concurrency được giới hạn trong khi health/readiness vẫn phản hồi
+- evidence collection fail-closed khi source state bẩn và từ chối secret leakage
+- `/kaggle/input` luôn read-only; writable Qdrant runtime state nằm dưới `/kaggle/working/qdrant-bilingual-search`
+- canonical snapshot restore không bao giờ tự động reseed final collection
+
+### Sáu controlled publication assets cuối cùng
+
+GitHub Release đã freeze chính xác sáu custom assets:
+
+```text
+nodejs-qdrant-bilingual-search-v1.0.0-kaggle-cpu-fp16-production-demo.ipynb
+  3f9b61694c3d2b2a9e73afa401dfc3f4ecf40d69bc11d551609499570a4df823
+
+nodejs-qdrant-bilingual-search-v1.0.0-kaggle-cpu-fp16-production-demo.ipynb.sha256
+  3fa610c0d759559a17c105c990586dd24e68e0addc857a1be8079a69ac127c33
+
+nodejs-qdrant-v1.0.0-production-demo-evidence-20260909T024546Z.zip
+  110ab61b97927ae74949badcd0d9dfc382608978b1ffbaa8795d3a2529a7255c
+
+nodejs-qdrant-v1.0.0-production-demo-evidence-20260909T024546Z.zip.sha256
+  990bde3daafe9a792023ab7c87bdefa8baa2409d442a26f026d6b8d0b28b07b9
+
+nodejs-qdrant-v1.0.0-release-manifest.json
+  2bdc13febab013937b657947ada11cc29e346b222890743d9ad5a23efb56dd76
+
+nodejs-qdrant-v1.0.0-release-manifest.json.sha256
+  bd7e32d44d0b29b797422f85ee87587de0b125b6b17426b736db6f8e504228a9
+```
+
+### Ghi chú tài liệu hậu-publication
+
+Sau khi public release đã freeze, tài liệu trên nhánh `main` được corrective để khớp với final public provenance và asset set. Follow-up chỉ liên quan tài liệu này không retarget `v1.0.0`, không thay release assets và không reopen release qualification.
