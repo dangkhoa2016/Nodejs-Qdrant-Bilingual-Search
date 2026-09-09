@@ -13,6 +13,19 @@ English/Vietnamese semantic search over a reproducible 20,000-entity open-geogra
 
 The accepted `v1.0.0` runtime is designed for a portable Kaggle CPU environment: the Qwen3-Embedding-4B model is loaded read-only from `/kaggle/input`, inference runs with **Transformers / PyTorch / CPU / FP16**, and the public embedding interface remains normalized **Float32[2560]** over `binary-f32` transport.
 
+## Demo at a glance
+
+Fresh `v1.0.0` Kaggle qualification demonstrates bilingual retrieval on the frozen 20K corpus:
+
+| Query | Language | Top result |
+| --- | --- | --- |
+| `Southeast Asian country whose currency is baht` | EN | **Thailand** |
+| `thành phố thủ đô của Nhật Bản` | VI | **Tokyo** |
+| `Bắc Kinh, thủ đô của Trung Quốc` | VI | **Beijing** |
+
+Qualification: **13/13** stable local acceptance · **10/10** semantic sentinels · **20,000/20,000** Qdrant corpus · `RESEED_PERFORMED=NO`.
+
+These examples are a compact end-to-end showcase, not a full-corpus quality benchmark. See [Validated retrieval scope](#validated-retrieval-scope) and [the `v1.0.0` release evidence](docs/releases/v1.0.0.md).
 
 ## Release snapshot
 
@@ -90,8 +103,8 @@ For canonical reproduction, import and run the committed notebook instead of man
 1. Create a new Kaggle Notebook and use **File → Import Notebook → GitHub**.
 2. Select repository `dangkhoa2016/Nodejs-Qdrant-Bilingual-Search` and notebook `notebooks/kaggle-cpu-fp16-production-demo.ipynb`.
 3. Enable **Internet** and set **Accelerator=None**.
-4. Attach the Kaggle model by slug `dangkhoa2016/qwen-qwen3-embedding-4b`; choose **Framework: `Transformers`** and **Variation: `default`** (`Transformers/default`).
-5. Attach the canonical snapshot dataset by slug `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
+4. Attach the Kaggle model [`dangkhoa2016/qwen-qwen3-embedding-4b`](https://www.kaggle.com/models/dangkhoa2016/qwen-qwen3-embedding-4b); choose **Framework: `Transformers`** and **Variation: `default`** (`Transformers/default`).
+5. Attach the canonical snapshot dataset [`dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`](https://www.kaggle.com/datasets/dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k).
 6. Keep the safe notebook defaults:
 
    ```python
