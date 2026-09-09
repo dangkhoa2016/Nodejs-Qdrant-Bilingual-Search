@@ -11,8 +11,21 @@
 
 Tìm kiếm ngữ nghĩa tiếng Anh/tiếng Việt trên kho ngữ liệu địa lý mở gồm 20.000 thực thể có thể tái tạo, sử dụng **Node.js + Hono + Qdrant + Qwen3-Embedding-4B**.
 
-Runtime `v1.0.0` được chấp nhận được thiết kế cho môi trường Kaggle CPU có tính di động: model Qwen3-Embedding-4B được tải read-only từ `/kaggle/input`, inference chạy với **Transformers / PyTorch / CPU / FP16**, còn giao diện embedding công khai vẫn là vector **Float32[2560]** đã chuẩn hóa qua transport `binary-f32`.
+Runtime `v1.0.0` đã được chấp nhận và được thiết kế cho môi trường Kaggle CPU có tính di động: model Qwen3-Embedding-4B được tải ở chế độ read-only từ `/kaggle/input`, inference chạy với **Transformers / PyTorch / CPU / FP16**, còn giao diện embedding công khai vẫn là vector **Float32[2560]** đã chuẩn hóa qua transport `binary-f32`.
 
+## Demo nhanh
+
+Lần qualification Kaggle mới của `v1.0.0` cho thấy khả năng truy xuất song ngữ trên corpus 20K đã freeze:
+
+| Truy vấn | Ngôn ngữ | Kết quả đứng đầu |
+| --- | --- | --- |
+| `Southeast Asian country whose currency is baht` | EN | **Thailand** |
+| `thành phố thủ đô của Nhật Bản` | VI | **Tokyo** |
+| `Bắc Kinh, thủ đô của Trung Quốc` | VI | **Beijing** |
+
+Qualification: **13/13** kiểm thử acceptance cục bộ ổn định · **10/10** semantic sentinels · **20.000/20.000** corpus Qdrant · `RESEED_PERFORMED=NO`.
+
+Các ví dụ này là phần trình diễn end-to-end nhỏ gọn, không phải benchmark chất lượng cho toàn bộ corpus. Xem [Phạm vi truy xuất đã được xác thực](#phạm-vi-truy-xuất-đã-được-xác-thực) và [bằng chứng release `v1.0.0`](docs/releases/v1.0.0.vi.md).
 
 ## Tổng quan bản phát hành
 
@@ -20,18 +33,18 @@ Runtime `v1.0.0` được chấp nhận được thiết kế cho môi trường
 | --- | --- |
 | Model embedding | `Qwen/Qwen3-Embedding-4B` |
 | Ngôn ngữ | Tiếng Anh + Tiếng Việt |
-| Kho ngữ liệu Canonical | 20.000 / 20.000 đơn vị |
-| Kích thước Vector | 2560 |
-| Khoảng cách | cosin |
+| Kho ngữ liệu canonical | 20.000 / 20.000 thực thể |
+| Số chiều vector | 2560 |
+| Khoảng cách | Cosine |
 | Runtime | Transformers / PyTorch / CPU / FP16 |
-| vector công khai | `Float32[2560]` được chuẩn hóa |
+| Vector công khai | `Float32[2560]` đã chuẩn hóa |
 | Transport | `binary-f32` |
-| Trình xác minh ngữ nghĩa Canonical | 20.000 / 20.000 ĐẠT |
-| Khói ổn định sentinels | Thái Lan EN, Tokyo VI, Bắc Kinh VI, Casablanca âm = PASS |
-| Bộ kiểm tra Node | 454/454 ĐẠT |
-| CI | Node 22 + Node 24 + Công cụ Python + Tích hợp Qdrant |
+| Trình xác minh ngữ nghĩa canonical | 20.000 / 20.000 PASS |
+| Bộ sentinel smoke-test ổn định | Thailand EN, Tokyo VI, Beijing VI, Casablanca — trường hợp âm tính = PASS |
+| Bộ kiểm tra Node | 454 / 454 PASS |
+| CI | Node 22 + Node 24 + Python engine + tích hợp Qdrant |
 
-Repository này là **demo/runtime profile tìm kiếm ngữ nghĩa có tính di động đã được xác thực**. Dự án không được trình bày như một stack GPU serving độ trễ thấp.
+Repository này là **profile demo/runtime tìm kiếm ngữ nghĩa có tính di động đã được xác thực**. Dự án không được trình bày như một stack GPU serving độ trễ thấp.
 
 ## Kiến trúc
 
@@ -58,7 +71,7 @@ GeoNames + optional Who's On First enrichment
         canonical 20K collection
 ```
 
-Cấu trúc service cục bộ mặc định:
+Cấu trúc dịch vụ cục bộ mặc định:
 
 ```text
 Qdrant             http://127.0.0.1:6333
@@ -66,7 +79,7 @@ Embedding service  http://127.0.0.1:8001
 Node API           http://127.0.0.1:3000
 ```
 
-Chỉ Node API được dự định đưa ra công khai qua demo tunnel tùy chọn. Qdrant và embedding service luôn giữ ở localhost trong profile này.
+Chỉ Node API được dự định đưa ra công khai qua đường hầm demo tùy chọn. Qdrant và embedding service luôn giữ ở localhost trong profile này.
 
 ## Bắt đầu nhanh
 
@@ -90,8 +103,8 @@ npm ci
 1. Tạo Kaggle Notebook mới và chọn **File → Import Notebook → GitHub**.
 2. Chọn repository `dangkhoa2016/Nodejs-Qdrant-Bilingual-Search` và notebook `notebooks/kaggle-cpu-fp16-production-demo.ipynb`.
 3. Bật **Internet** và đặt **Accelerator=None**.
-4. Gắn Kaggle model bằng slug `dangkhoa2016/qwen-qwen3-embedding-4b`; chọn **Framework: `Transformers`** và **Variation: `default`** (`Transformers/default`).
-5. Gắn canonical snapshot dataset bằng slug `dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`.
+4. Gắn Kaggle model [`dangkhoa2016/qwen-qwen3-embedding-4b`](https://www.kaggle.com/models/dangkhoa2016/qwen-qwen3-embedding-4b); chọn **Framework: `Transformers`** và **Variation: `default`** (`Transformers/default`).
+5. Gắn canonical snapshot dataset [`dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k`](https://www.kaggle.com/datasets/dangkhoa2016/qdrant-bilingual-search-canonical-v2-1-20k).
 6. Giữ các mặc định an toàn của notebook:
 
    ```python
@@ -126,7 +139,7 @@ Các lệnh lifecycle hữu ích:
 DEMO_PUBLIC=0 bash scripts/kaggle/run-qwen3-transformers-fp16-cpu.sh
 ```
 
-Xem [docs/kaggle-production-demo-notebook.vi.md](docs/kaggle-production-demo-notebook.vi.md), [docs/production-demo.vi.md](docs/production-demo.vi.md), và [docs/qwen3-embedding-kaggle-transformers-fp16.vi.md](docs/qwen3-embedding-kaggle-transformers-fp16.vi.md) để biết đầy đủ operator contract.
+Xem [docs/kaggle-production-demo-notebook.vi.md](docs/kaggle-production-demo-notebook.vi.md), [docs/production-demo.vi.md](docs/production-demo.vi.md), và [docs/qwen3-embedding-kaggle-transformers-fp16.vi.md](docs/qwen3-embedding-kaggle-transformers-fp16.vi.md) để biết đầy đủ hợp đồng vận hành.
 
 ## Ví dụ API
 
@@ -194,7 +207,7 @@ FP16 model forward
 → binary-f32 transport
 ```
 
-## Hợp đồng ngữ nghĩa Canonical
+## Hợp đồng ngữ nghĩa canonical
 
 ```text
 model                = Qwen/Qwen3-Embedding-4B
@@ -215,7 +228,7 @@ Query:
 
 Các định danh này là một phần của semantic identity đã được chấp nhận và phải luôn khớp với Qdrant snapshot đang được truy vấn.
 
-## Trạng thái Canonical Qdrant
+## Trạng thái Qdrant canonical
 
 ```text
 collection        = knowledge_entities_qwen3_4b_text_v21
@@ -234,7 +247,7 @@ RESEED = NO
 SNAPSHOT_REUSE = APPROVED
 ```
 
-Việc tái sử dụng snapshot được gate bằng xác minh semantic identity chứ không chỉ dựa vào tên tệp. Xem [docs/releases/v1.0.0.vi.md](docs/releases/v1.0.0.vi.md) để biết bằng chứng và phạm vi release.
+Việc tái sử dụng snapshot được kiểm soát bằng xác minh semantic identity chứ không chỉ dựa vào tên tệp. Xem [docs/releases/v1.0.0.vi.md](docs/releases/v1.0.0.vi.md) để biết bằng chứng và phạm vi release.
 
 Qdrant client profile được chọn một lần qua `QDRANT_PROVIDER`: `local` cho kết nối cục bộ mặc định hoặc `beam` / `modal` cho hosted single-node deployment. Xem [docs/qdrant-connection.md](docs/qdrant-connection.md).
 
@@ -330,7 +343,7 @@ npm run demo
 npm run smoke:production
 ```
 
-## Phạm vi retrieval đã được xác thực
+## Phạm vi truy xuất đã được xác thực
 
 Bộ compatibility sentinel ổn định đạt:
 
@@ -341,13 +354,13 @@ Beijing VI           = PASS
 Casablanca negative  = PASS
 ```
 
-Các smoke sentinel này là một **end-to-end regression gate nhỏ gọn và xác định**, không phải quality benchmark cho toàn bộ corpus 20K. Chúng xác minh rằng đường dẫn `query → embedding → Qdrant → search policy → API response` đã được chấp nhận vẫn duy trì hành vi positive/negative đã biết sau thay đổi runtime, snapshot hoặc deployment. Chất lượng retrieval rộng hơn được đánh giá riêng bằng các benchmark suite đã commit trong [benchmarks/README.md](benchmarks/README.md).
+Các smoke sentinel này là một **cổng kiểm thử hồi quy end-to-end nhỏ gọn và xác định**, không phải benchmark chất lượng cho toàn bộ corpus 20K. Chúng xác minh rằng đường dẫn `query → embedding → Qdrant → search policy → API response` đã được chấp nhận vẫn duy trì hành vi dương tính/âm tính đã biết sau các thay đổi về runtime, snapshot hoặc deployment. Chất lượng truy xuất rộng hơn được đánh giá riêng bằng các benchmark suite đã commit trong [benchmarks/README.md](benchmarks/README.md).
 
-Một bộ relation-style diagnostics hẹp hơn cho thấy các giới hạn ranking model/snapshot đã biết. Cụ thể, query dạng quan hệ thủ đô nghiêm ngặt của Thái Lan có thể tạo near-tie giữa Bangkok-city và Thailand-country; các query Fuji/Japan vẫn chỉ mang tính diagnostic. Những trường hợp này được ghi nhận như limitation thay vì bị che giấu hoặc tổng quát hóa thành canonical PASS.
+Một bộ diagnostics dạng quan hệ hẹp hơn cho thấy các giới hạn ranking model/snapshot đã biết. Cụ thể, query dạng quan hệ thủ đô nghiêm ngặt của Thái Lan có thể tạo near-tie giữa Bangkok-city và Thailand-country; các query Fuji/Japan vẫn chỉ mang tính diagnostic. Những trường hợp này được ghi nhận như hạn chế đã biết thay vì bị che giấu hoặc tổng quát hóa thành canonical PASS.
 
 Chi tiết đầy đủ: [docs/releases/v1.0.0.vi.md](docs/releases/v1.0.0.vi.md).
 
-## Bản đồ repository
+## Cấu trúc repository
 
 ```text
 src/                Node.js API, search, Qdrant, seed and dataset logic
@@ -372,18 +385,18 @@ tests/              unit, HTTP, architecture and integration tests
 - [Engineering portfolio](docs/portfolio.md)
 - [Changelog](CHANGELOG.vi.md)
 
-## Branch tham chiếu
+## Nhánh tham chiếu
 
-`runtime/true-fp32` giữ lại implementation CPU true-FP32 dựng sẵn đã được chứng minh như một branch kỹ thuật/tham chiếu. Nó không phải canonical portable profile `v1.0.0`; `main` vẫn dùng CPU FP16 vì có memory headroom tốt hơn trên Kaggle.
+`runtime/true-fp32` giữ lại triển khai CPU true-FP32 dựng sẵn đã được chứng minh như một nhánh kỹ thuật/tham chiếu. Nó không phải canonical portable profile `v1.0.0`; `main` vẫn dùng CPU FP16 vì có dư địa bộ nhớ tốt hơn trên Kaggle.
 
 ## Hạn chế đã biết
 
-- Demo/runtime portable hướng CPU, không phải low-latency GPU serving.
+- Demo/runtime di động hướng CPU, không phải low-latency GPU serving.
 - Không có reranker.
 - Không có hybrid sparse+dense retrieval.
 - Không có lớp RAG.
 - Không tự động reseed lúc runtime.
-- Relation-style diagnostics có thể bộc lộ giới hạn ranking model/snapshot ngay cả khi canonical semantic verification PASS.
+- Diagnostics dạng quan hệ có thể bộc lộ giới hạn ranking model/snapshot ngay cả khi canonical semantic verification PASS.
 
 ## Bảo mật và nguồn gốc
 
@@ -392,7 +405,7 @@ tests/              unit, HTTP, architecture and integration tests
 - Application code tuân theo license của repository.
 - Dataset source có yêu cầu attribution riêng; xem [data/LICENSE-DATA.md](data/LICENSE-DATA.md).
 
-## Cộng đồng và governance
+## Cộng đồng và quản trị
 
 - [Đóng góp](.github/CONTRIBUTING.vi.md) / [Contributing](.github/CONTRIBUTING.md)
 - [Security policy](.github/SECURITY.md)
@@ -402,6 +415,6 @@ tests/              unit, HTTP, architecture and integration tests
 
 ## Bản phát hành
 
-`v1.0.0` là release công khai đầu tiên của dự án này.
+`v1.0.0` là bản phát hành công khai đầu tiên của dự án này.
 
-Xem GitHub Release và [docs/releases/v1.0.0.vi.md](docs/releases/v1.0.0.vi.md) để biết validated profile, evidence scope và reproduction pointers.
+Xem GitHub Release và [docs/releases/v1.0.0.vi.md](docs/releases/v1.0.0.vi.md) để biết profile đã xác thực, phạm vi bằng chứng và hướng dẫn tái tạo.
