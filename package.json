@@ -53,9 +53,9 @@
     "smoke:production": "NODE_ENV=production node scripts/demo/smoke.mjs"
   },
   "dependencies": {
-    "@hono/node-server": "2.1.1",
-    "@qdrant/js-client-rest": "1.19.0",
-    "hono": "4.13.5"
+    "@hono/node-server": "2.1.5",
+    "@qdrant/js-client-rest": "1.20.0",
+    "hono": "4.13.13"
   },
   "devDependencies": {
     "dotenv": "^17.4.2"
